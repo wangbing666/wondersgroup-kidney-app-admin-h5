@@ -1,0 +1,57 @@
+<div class="ui grid">
+  <div class="three wide column">
+    <div class="field">
+      <input type="text" name="name" [(ngModel)]="info.name" readonly>
+    </div>
+  </div>
+  <div class="two wide column" *ngIf="info.type==0">
+    <div class="field">
+      <input type="text" name="min" style="padding-left: 3px;padding-right: 3px;" (blur)="saveAsDraft()" (change)="saveAsDraft()" [ngModel]="'/'" disabled>
+    </div>
+  </div>
+  <div class="two wide column" *ngIf="info.type!=0">
+    <div class="field">
+      <input type="text" name="min" style="padding-left: 3px;padding-right: 3px;" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.min">
+    </div>
+  </div>
+  <div class="two wide column" *ngIf="info.type==0">
+    <div class="field">
+      <input type="text" name="max" style="padding-left: 3px;padding-right: 3px;" (blur)="saveAsDraft()" (change)="saveAsDraft()" [ngModel]="'/'" disabled>
+    </div>
+  </div>
+  <div class="two wide column" *ngIf="info.type!=0">
+    <div class="field">
+      <input type="text" name="max" style="padding-left: 3px;padding-right: 3px;" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.max">
+    </div>
+  </div>
+  <div class="two wide column" *ngIf="info.type!=0">
+    <div class="field">
+      <input type="text" name="reference" style="padding-left: 3px;padding-right: 3px;" (blur)="saveAsDraft()" (change)="saveAsDraft()" [ngModel]="'/'" disabled>
+    </div>
+  </div>
+  <div class="two wide column" *ngIf="info.type==0">
+    <div class="field">
+      <input type="text" name="reference" style="padding-left: 3px;padding-right: 3px;" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.reference">
+    </div>
+  </div>
+  <div class="two wide column" style="padding-left: 0">
+    <div class="field">
+      <input type="text" name="unit" style="padding-left: 3px;padding-right: 3px;" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.unit">
+    </div>
+  </div>
+  <div class="two wide column" style="padding-left: 0">
+    <div class="field">
+      <input type="text" name="value" style="padding-left: 3px;padding-right: 3px;" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.value">
+    </div>
+  </div>
+  <div class="two wide column" style="padding-left: 0">
+    <div class="field">
+      <select id="standard" class="ui fluid dropdown" name="standard" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.standard">
+        <option value=""></option>
+        <option value="0">偏低</option>
+        <option value="1">正常</option>
+        <option value="2">偏高</option>
+      </select>
+    </div>
+  </div>
+</div>

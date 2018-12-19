@@ -1,0 +1,46 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="angle right icon" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <tab-set [menuClass]="'teal two item inverted content-tab'">
+    <tab title="全部医生服务">
+      <div *ngIf="!allTable.lists&&allTable.loading">Loading...</div>
+      <div *ngIf="allTable.lists">
+        <dynamic-table [titles]="allTable.titles" [lists]="allTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu *ngIf="allTable.lists" [totalPages]="allTable.totalPage" [currentPage]="allTable.currentPage" (pageEmitter)="getDoctorGroups($event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!allTable.lists&&!allTable.loading" class="error-message">
+        <p>{{allTable.errorMessage}}</p>
+        <button class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+    <tab title="待审核服务说明" [label]="count">
+      <div *ngIf="!auditingTable.lists&&auditingTable.loading">Loading...</div>
+      <div *ngIf="auditingTable.lists">
+        <dynamic-table [titles]="auditingTable.titles" [lists]="auditingTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu *ngIf="auditingTable.lists" [totalPages]="auditingTable.totalPage" [currentPage]="auditingTable.currentPage" (pageEmitter)="getAuditingServices($event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!auditingTable.lists&&!auditingTable.loading" class="error-message">
+        <p>{{auditingTable.errorMessage}}</p>
+        <button class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+  </tab-set>
+</div>
+<doctor-service-edit *ngIf="enableEdit"  [(enable)]="enableEdit"  [data]="doctorservice"></doctor-service-edit>
+<modal-edit *ngIf="enableAudit" [(enable)]="enableAudit" [title]="'操作提示'" [message]="'你确定要通过审核？'">
+  <button class="ui button blue" (click)="refund('1')">确定</button>
+  <button class="ui button red" (click)="refund('2')">不通过</button>
+  <button class="ui button grey" (click)="refundCancel()">取消</button>
+</modal-edit>
+<modal-show *ngIf="enableShow" [title]="'提示信息'" [message]="message" [(enable)]="enableShow"></modal-show>
+
+

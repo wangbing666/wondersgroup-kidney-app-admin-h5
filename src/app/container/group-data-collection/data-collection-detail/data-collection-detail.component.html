@@ -1,0 +1,67 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="angle right icon" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    <i class="reply icon" style="cursor: pointer;" (click)="goback()"></i> {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <div *ngIf="errorMessage" class="error-message">
+    <p>{{errorMessage}}</p>
+    <button class="ui button small" (click)="getDataCollection()">点击刷新</button>
+  </div>
+  <div *ngIf="userInfo">
+    <div *ngIf="userInfo.status==1||userInfo.status==3">
+      <app-userinfo [user]="userInfo"></app-userinfo>
+      <div class="ui two column grid data-container">
+        <div *ngIf="userInfo&&userInfo.recordHistoryDtoList&&commonList" class="column">
+          <div id="dataShow" class="show-container">
+            <div *ngFor="let obj of userInfo.recordHistoryDtoList;let i=index" class="show-content">
+              <h4 class="ui horizontal divider">病史资料{{i+1}}</h4>
+              <ul class="data-list">
+                <li *ngFor="let user of commonList">
+                  <h4 class="inline">{{user.title}}:</h4> {{obj[user.key]}}
+                </li>
+                <li #f hidden="true">
+                  <div *ngIf="obj.recordHistoryType==1">
+                    <app-report-detail [info]="obj.object"></app-report-detail>
+                  </div>
+                  <div *ngIf="obj.recordHistoryType==2">
+                    <app-brief-detail [info]="obj.object"></app-brief-detail>
+                  </div>
+                  <div *ngIf="obj.recordHistoryType==4">
+                    <app-medical-detail [info]="obj.object"></app-medical-detail>
+                  </div>
+                  <div *ngIf="obj.recordHistoryType==5">
+                    <app-record-detail [info]="obj.object"></app-record-detail>
+                  </div>
+                  <div *ngIf="obj.recordHistoryType==6">
+                    <app-other-detail [info]="obj.object"></app-other-detail>
+                  </div>
+                  <div *ngFor="let img of obj.medicalRecordPhotoList" class="show-image">
+                    <img src="{{img.imgUrl}}">
+                  </div>
+                </li>
+              </ul>
+              <div class="show-button">
+                <button class="ui mini button" (click)="toggle(f,b)" #b>展开详情</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="userInfo" class="column image-container">
+          <app-image-show [imgList]="userInfo.medicalRecordPhotoList"></app-image-show>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui buttons">
+    <button type="button" class="ui button" (click)="toAudit()">提交复审</button>
+    <button type="button" class="ui button" (click)="toUnpass()">审核不通过</button>
+    <button type="button" class="ui button" (click)="toPass()">通过上线</button>
+  </div>
+</div>
+<auditing [id]="userInfo.id" (cancel)="auditingEnable=false" (done)="done($event)" [hidden]="auditingEnable" *ngIf="auditingEnable"></auditing>
+<pass [id]="userInfo.id" (cancel)="passEnable=false" (done)="done($event)" [hidden]="passEnable" *ngIf="passEnable"></pass>
+<unpass [id]="userInfo.id" (cancel)="unpassEnable=false" (done)="done($event)" [hidden]="unpassEnable" *ngIf="unpassEnable"></unpass>
+<modal-show *ngIf="enableShow" [title]="'提示信息'" [message]="message" [(enable)]="enableShow"></modal-show>

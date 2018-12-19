@@ -1,0 +1,13 @@
+<modal-full [modalTitle]="modalTitle" (closeEmmit)="close()">
+  <div *ngIf="!IntegralDetailTable.lists&&IntegralDetailTable.loading">Loading...</div>
+  <div *ngIf="IntegralDetailTable.lists">
+    <dynamic-table [titles]="IntegralDetailTable.titles" [lists]="IntegralDetailTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+    <div class="table-nav" style="text-align: right">
+      <page-menu [totalPages]="IntegralDetailTable.totalPage" [currentPage]="IntegralDetailTable.currentPage" (pageEmitter)="getIntegralDetailTable($event)"></page-menu>
+    </div>
+  </div>
+  <div *ngIf="!IntegralDetailTable.lists&&!IntegralDetailTable.loading" class="error-message">
+    <p>{{IntegralDetailTable.errorMessage}}</p>
+    <button *ngIf="IntegralDetailTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+  </div>
+</modal-full>

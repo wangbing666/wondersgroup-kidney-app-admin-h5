@@ -1,0 +1,46 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="fa fa-angle-right" aria-hidden="true" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <div class="table-title">{{subTitle}}</div>
+  <div class="table-content">
+    <form class="ui small form" style="margin: 15px 0 30px" #uf="ngForm" (ngSubmit)="clickSearch()">
+      <div class="inline fields">
+        <div class="field">
+          <input type="text" placeholder="日期格式：2010-01-01" name="queryDate" [(ngModel)]="queryDate" id="patient" style="width: 200px">
+        </div>
+        <div class="field">
+          <button type="submit" class="ui small button">搜索</button>
+        </div>
+        <!--<div class="field">
+          <button type="button" class="ui small button" (click)="defaultData()">刷新</button>
+        </div>-->
+      </div>
+    </form>
+    <div *ngIf="!dataTable.lists&&dataTable.loading">Loading...</div>
+    <div *ngIf="judge" style="text-align: center;font-size: 16px;font-weight: 700">
+      <span style="padding-right: 10px">服务申请次数：{{userStatistics.allApplyCount}}</span>
+      <span style="padding-right: 10px">医生接受服务次数：{{userStatistics.allAccessCount}}</span>
+      <span style="padding-right: 10px">医患沟通服务总数：{{userStatistics.allEffectiveServiceCount}}</span>
+      <span style="padding-right: 10px">患者已使用咨询次数：{{userStatistics.allUsedQuestionCount}}</span>
+      <span style="padding-right: 10px">服务申请率：{{userStatistics.applyRatio}}</span>
+      <span style="padding-right: 10px">服务接受率：{{userStatistics.accessRatio}}</span>
+      <span style="padding-right: 10px">沟通率：{{userStatistics.connectRatio}}</span>
+      <span style="padding-right: 10px">咨询次数使用度：{{userStatistics.usedQuestionRatio}}</span>
+    </div>
+    <div *ngIf="dataTable.lists">
+      <dynamic-table [titles]="dataTable.titles" [lists]="dataTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+      <!--<div class="table-nav" style="text-align: right">
+        <page-menu *ngIf="userActivenessTable.lists" [totalPages]="userActivenessTable.totalPage" [currentPage]="userActivenessTable.currentPage" (pageEmitter)="getUserActivenessStatistics($event)"></page-menu>
+      </div>-->
+    </div>
+    <div *ngIf="!dataTable.lists&&!dataTable.loading" class="error-message">
+      <p>{{dataTable.errorMessage}}</p>
+      <button *ngIf="dataTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+    </div>
+  </div>
+</div>

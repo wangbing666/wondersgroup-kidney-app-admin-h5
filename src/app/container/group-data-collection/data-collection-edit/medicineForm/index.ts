@@ -1,0 +1,1 @@
+export * from './medicine-form.component';

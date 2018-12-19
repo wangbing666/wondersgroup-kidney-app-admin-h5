@@ -1,0 +1,132 @@
+/* You can add global styles to this file, and also import other style files */
+
+html {
+  width: 100%;
+  height: 100%;
+  min-width: 723px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.content-wrapper {
+  padding: 15px;
+  height: 100%;
+}
+
+.content-location {
+  font-size: 12px;
+}
+
+.content-location > i:first-child {
+  color: #999;
+}
+
+.content-title {
+  margin: 10px 0 20px;
+  font-size: 16px;
+}
+
+.content-addition {
+  position: absolute;
+  top: 25px;
+  right: 15px;
+}
+
+.content-tab {
+  border-radius: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+.ui.inverted.menu .teal.active.item,
+.ui.inverted.teal.menu {
+  background-color: #0a819c !important;
+}
+
+.tab-content {
+  border-radius: 0px !important;
+  border: 1px #0a819c solid !important;
+}
+
+.no-wrape {
+  white-space: nowrap !important;
+}
+
+.table-content {
+  position: relative;
+  width: 100%;
+  height: auto;
+  padding: 20px 15px;
+  background-color: #fff;
+  @include box-shadow(0 0 5px rgba(230, 230, 230, .7));
+  border: 1px #0a819c solid !important;
+}
+
+.table-title {
+  width: 100%;
+  height: 39px;
+  line-height: 39px;
+  color: #fff;
+  font-size: 16px;
+  background-color: #0a819c;
+  text-align: center;
+}
+
+.table-nav {
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.table-nav > .page-items {
+  float: right;
+}
+
+.table-header {
+  padding: 20px 0;
+}
+
+.dropdown-container {
+  display: inline-block;
+  margin-right: 20px;
+  font-size: 0.92857143rem !important;
+  min-width: 5.5em !important;
+}
+
+.dropdown-container .item {
+  font-size: 0.92857143rem !important;
+}
+
+.search-content {
+  position: absolute;
+  right: 30px;
+  top: 40px;
+}
+
+@media (max-width: 800px) {
+  .search-content {
+    display: block;
+    position: initial;
+  }
+}
+
+.blue {
+  background-color: #0a819c !important;
+}
+
+.error-message {
+  padding: 30px 0;
+  text-align: center;
+}
+.cdk-visually-hidden{
+  display: none;
+}
+.mat-radio-inner-circle {
+  background-color: #000;
+}
+.mat-radio-label{
+  margin-right: 20px;
+}

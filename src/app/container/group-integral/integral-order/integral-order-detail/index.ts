@@ -1,0 +1,1 @@
+export * from './integral-order-detail.component';

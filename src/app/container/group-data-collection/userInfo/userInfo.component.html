@@ -1,0 +1,27 @@
+<table class="ui single line table">
+  <thead>
+    <tr>
+      <th colspan="4" class="center aligned"><h3>患者资料</h3></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <h4 class="inline">患者姓名：</h4>{{user?.name}}</td>
+      <td>
+        <h4 class="inline">年龄：</h4>{{user?.age}}</td>
+      <td>
+        <h4 class="inline">性别：</h4>{{user?.sex}}</td>
+      <td>
+        <h4 class="inline">实名认证：</h4>{{user?.authenticate}}</td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <h4 class="inline">手机号：</h4>{{user?.tel}}</td>
+      <td>
+        <h4 class="inline">手术医院：</h4>{{user?.hospitalName}}</td>
+      <td>
+        <h4 class="inline">手术医生：</h4>{{user?.doctorName}}</td>
+    </tr>
+  </tbody>
+</table>

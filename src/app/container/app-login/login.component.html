@@ -1,0 +1,21 @@
+<header class="login-header">
+  <h3>移植管家后台管理系统</h3>
+</header>
+<div class="login-container">
+  <div class="login-content">
+    <form class="ui form" #f="ngForm" (ngSubmit)="onSubmit(f.value)">
+      <div class="field">
+        <label for="username">用户名</label>
+        <input id="username" type="text" name="username" ngModel required>
+      </div>
+      <div class="field">
+        <label for="password">密码</label>
+        <input id="password" type="password" name="password" ngModel required>
+      </div>
+      <div class="field login-button">
+        <button class="fluid ui button blue" type="submit">登陆</button>
+      </div>
+    </form>
+  </div>
+</div>
+<modal-show *ngIf="enableShow" [title]="'提示信息'" [message]="message" [(enable)]="enableShow"></modal-show>

@@ -1,0 +1,162 @@
+<div class="modal-full">
+  <i class="close icon" (click)="close()"></i>
+  <div class="modal-header">
+    {{modalTitle}}
+  </div>
+  <div class="modal-container">
+    <div *ngIf="errorMessage" class="error-message">* {{errorMessage}}</div>
+    <form class="ui form error" *ngIf="myForm" [formGroup]="myForm" (ngSubmit)="getValue(myForm.value)">
+      <div class="field">
+        <div class="ui grid">
+          <div class="three wide column right aligned">
+            <label>
+              所属大类
+              <span *ngIf="!isValid('recordExaminationTypeId')" style="color: #e74c3c;">*</span>
+            </label>
+          </div>
+          <div class="nine wide column">
+            <select id="inspectionType" class="ui fluid dropdown" [formControlName]="'recordExaminationTypeId'" required>
+              <option [value]="''"></option>
+              <option *ngFor="let opt of inspectionType" [value]="opt.id">{{opt.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="ui grid">
+          <div class="three wide column right aligned">
+            <label>
+              项目名称
+              <span *ngIf="!isValid('name')" style="color: #e74c3c;">*</span>
+            </label>
+          </div>
+          <div class="nine wide column">
+            <input type="text" [formControlName]="'name'" required>
+          </div>
+        </div>
+        <div class="ui grid">
+          <div class="three wide column right aligned">
+            <label>
+              别名
+            </label>
+          </div>
+          <div class="nine wide column">
+            <input type="text" placeholder="多个别名用逗号隔开" [formControlName]="'alias'">
+          </div>
+        </div>
+        <div class="ui grid">
+          <div class="three wide column right aligned">
+            <label>
+              类型
+              <span *ngIf="!isValid('type')" style="color: #e74c3c;">*</span>
+            </label>
+          </div>
+          <div class="nine wide column">
+            <select id="typeOption" class="ui fluid dropdown" [formControlName]="'type'" [(ngModel)]="selectedType" required>
+              <option [value]="''"></option>
+              <option *ngFor="let opt of typeOption" [value]="opt.id">{{opt.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="ui grid" *ngIf="selectedType==1">
+          <div class="three wide column right aligned">
+            <label>
+              下限值
+            </label>
+          </div>
+          <div class="nine wide column">
+            <input type="text" [formControlName]="'min'">
+          </div>
+        </div>
+        <div class="ui grid" *ngIf="selectedType==1">
+          <div class="three wide column right aligned">
+            <label>
+              上限值
+            </label>
+          </div>
+          <div class="nine wide column">
+            <input type="text" [formControlName]="'max'">
+          </div>
+        </div>
+        <div class="ui grid" *ngIf="selectedType==0">
+          <div class="three wide column right aligned">
+            <label>
+              参考值
+            </label>
+          </div>
+          <div class="nine wide column">
+            <input type="text" [formControlName]="'reference'">
+          </div>
+        </div>
+        <div class="ui grid">
+          <div class="three wide column right aligned">
+            <label>
+              单位
+            </label>
+          </div>
+          <div class="nine wide column">
+            <input type="text" [formControlName]="'unit'">
+          </div>
+        </div>
+        <div class="ui grid">
+          <div class="three wide column right aligned">
+            <label>
+              图表选项
+              <span *ngIf="!isValid('chart')" style="color: #e74c3c;">*</span>
+            </label>
+          </div>
+          <div class="nine wide column">
+            <select id="chartOption" class="ui fluid dropdown" [formControlName]="'chart'" [(ngModel)]="selectedChart" required>
+              <option [value]="''"></option>
+              <option *ngFor="let opt of chartOption" [value]="opt.id">{{opt.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="ui grid" *ngIf="selectedChart=='true'">
+          <div class="three wide column right aligned">
+            <label>
+              图表纵坐标最小值
+            </label>
+          </div>
+          <div class="nine wide column">
+            <input type="text" [formControlName]="'minY'">
+          </div>
+        </div>
+        <div class="ui grid" *ngIf="selectedChart=='true'">
+          <div class="three wide column right aligned">
+            <label>
+              图表纵坐标最大值
+            </label>
+          </div>
+          <div class="nine wide column">
+            <input type="text" [formControlName]="'maxY'">
+          </div>
+        </div>
+        <div class="ui grid" *ngIf="selectedChart=='true'">
+          <div class="three wide column right aligned">
+            <label>
+              纵坐标间隔
+            </label>
+          </div>
+          <div class="nine wide column">
+            <input type="text" [formControlName]="'intervalY'">
+          </div>
+        </div>
+        <div class="ui grid" *ngIf="selectedChart=='true'">
+          <div class="three wide column right aligned">
+            <label>
+              图表线条颜色
+            </label>
+          </div>
+          <div class="nine wide column">
+            <input type="text" [formControlName]="'color'">
+          </div>
+        </div>
+      </div>
+      <div class="ui grid">
+        <div class="three wide column"></div>
+        <div class="nine wide column">
+          <button class="ui submit button" type="submit" [disabled]="!myForm.valid">保存</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

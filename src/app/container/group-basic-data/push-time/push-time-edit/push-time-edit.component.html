@@ -1,0 +1,22 @@
+<div class="modal-full">
+  <i class="close icon" (click)="close()"></i>
+  <div class="modal-header">
+    编辑推送时间
+  </div>
+  <div class="modal-container">
+    <div *ngIf="errorMessage" class="error-message">* {{errorMessage}}</div>
+    <div class="ui form error" style="padding: 30px 0">
+		  <div class="form-content ui grid">
+		  	<div class="three wide column" style="text-align: right;font-size: 16px;">
+		  		<p>项目名称：</p>
+		  		<p>推送时间：</p>
+		  	</div>
+		  	<div class="nine wide column">
+			    <p>{{project}}</p>
+			    <p><input type="text" id="patient" [(ngModel)]="userPushTime"></p>
+			    <button class="ui submit button" type="button" (click)="getValue()">保存</button>
+		  	</div>
+		  </div>
+		</div>
+  </div>
+</div>

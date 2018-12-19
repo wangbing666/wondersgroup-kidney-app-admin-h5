@@ -1,0 +1,29 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="angle right icon" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <div class="content-addition">
+    <button class="ui button" (click)="newHealthService()">新增第三方服务</button>
+  </div>
+  <tab-single [menuClass]="'teal three item inverted content-tab'">
+    <tab title="第三方服务列表">
+      <div *ngIf="HealthServiceTable.lists">
+        <div *ngIf="!HealthServiceTable.lists&&HealthServiceTable.loading">Loading...</div>
+        <dynamic-table [titles]="HealthServiceTable.titles" [lists]="HealthServiceTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu *ngIf="HealthServiceTable.lists" [totalPages]="HealthServiceTable.totalPage" [currentPage]="HealthServiceTable.currentPage" (pageEmitter)="getHealthServices($event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!HealthServiceTable.lists&&!HealthServiceTable.loading" class="error-message">
+        <p>{{HealthServiceTable.errorMessage}}</p>
+        <button *ngIf="HealthServiceTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+  </tab-single>
+</div>
+<health-service-edit *ngIf="enableEdit"  [(enable)]="enableEdit"  [data]="HealthService" (handleEmit)="handleSuccess($event)"></health-service-edit>
+<modal-show *ngIf="enableShow" [title]="'提示信息'" [message]="message" [(enable)]="enableShow"></modal-show>

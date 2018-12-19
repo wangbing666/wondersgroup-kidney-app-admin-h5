@@ -1,0 +1,45 @@
+<div id="table" class="table-container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th *ngFor="let title of titles">{{title.name}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let list of lists">
+        <td *ngFor="let title of titles" [ngSwitch]="title.controlType" data-title="{{title.name}}">
+          <div *ngSwitchCase="'text'" [style.minWidth.px]="title.minwidth" [style.maxWidth.px]="title.maxwidth">
+            <span>{{list[title.key] == 0 ? list[title.key] : list[title.key] || ''}}</span>
+          </div>
+          <div *ngSwitchCase="'image'" class="table-img">
+            <img src="{{list[title.key]}}">
+          </div>
+          <div *ngSwitchCase="'showTitle'" [style.minWidth.px]="title.minwidth">
+            <button class="mini ui  button" (click)="gotoHandle(title.key,list)">
+              {{title.name}}
+            </button>
+          </div>
+          <div *ngSwitchCase="'showKey'" [style.minWidth.px]="title.minwidth">
+            <button class="mini ui  button" (click)="gotoHandle(title.key,list)">
+              {{list[title.key]}}
+            </button>
+          </div>
+          <div *ngSwitchCase="'showFrequency'" [style.minWidth.px]="title.minwidth">
+            {{list[title.key]}}元/{{list[title.frequency]}}次
+          </div>
+          <div *ngSwitchCase="'showNull'">
+            <button class="mini ui circular help icon button" (click)="gotoHandle(title.key,list)">
+              <i class="help icon"></i>
+            </button>
+          </div>
+          <div *ngSwitchCase="'showExtra'" [style.minWidth.px]="title.minwidth">
+            <p>{{list[title.key]}}</p>
+            <button class="mini ui circular help icon button" (click)="gotoHandle(title.key,list)" style="margin-left: 5px">
+              <i class="help icon"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,63 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="fa fa-angle-right" aria-hidden="true" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <tab-set [menuClass]="'teal two item inverted content-tab'">
+    <tab title="患者端">
+      <form class="ui small form" style="margin: 15px 0 30px" #uf="ngForm" (ngSubmit)="getUserIntegralDetail(0)">
+        <div class="inline fields">
+          <div class="field">
+            <input type="text" placeholder="姓名/手机号/项目搜索" name="queryKeyUser" [(ngModel)]="queryKeyUser">
+          </div>
+          <div class="field">
+            <button type="button" class="ui small button" (click)="getUserSearch()">搜索</button>
+          </div>
+          <div class="field">
+            <button type="button" class="ui small button" (click)="reset()">全部</button>
+          </div>
+        </div>
+      </form>
+      <div *ngIf="!userIntegralDetailTable.lists&&userIntegralDetailTable.loading">Loading...</div>
+      <div *ngIf="userIntegralDetailTable.lists">
+        <dynamic-table [titles]="userIntegralDetailTable.titles" [lists]="userIntegralDetailTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div *ngIf="!isSearch"  class="table-nav" style="text-align: right">
+          <page-menu *ngIf="userIntegralDetailTable.lists" [totalPages]="userIntegralDetailTable.totalPage" [currentPage]="userIntegralDetailTable.currentPage" (pageEmitter)="getUserIntegralDetail($event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!userIntegralDetailTable.lists&&!userIntegralDetailTable.loading" class="error-message">
+        <p>{{userIntegralDetailTable.errorMessage}}</p>
+        <button *ngIf="userIntegralDetailTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+    <tab title="医生端">
+      <form class="ui small form" style="margin: 15px 0 30px" #df="ngForm" (ngSubmit)="getDoctorIntegralDetail(0)">
+        <div class="inline fields">
+          <div class="field">
+            <input type="text" placeholder="姓名/手机号/项目搜索" name="queryKeyDoctor" [(ngModel)]="queryKeyDoctor">
+          </div>
+          <div class="field">
+            <button type="button" class="ui small button" (click)="getDoctorSearch()">搜索</button>
+          </div>
+          <div class="field">
+            <button type="button" class="ui small button" (click)="reset()">全部</button>
+          </div>
+        </div>
+      </form>
+      <div *ngIf="!doctorIntegralDetailTable.lists&&doctorIntegralDetailTable.loading">Loading...</div>
+      <div *ngIf="doctorIntegralDetailTable.lists">
+        <dynamic-table [titles]="doctorIntegralDetailTable.titles" [lists]="doctorIntegralDetailTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div *ngIf="!isSearch"  class="table-nav" style="text-align: right">
+          <page-menu [totalPages]="doctorIntegralDetailTable.totalPage" [currentPage]="doctorIntegralDetailTable.currentPage" (pageEmitter)="getDoctorIntegralDetail($event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!doctorIntegralDetailTable.lists&&!doctorIntegralDetailTable.loading" class="error-message">
+        <p>{{doctorIntegralDetailTable.errorMessage}}</p>
+        <button *ngIf="doctorIntegralDetailTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+  </tab-set>
+</div>

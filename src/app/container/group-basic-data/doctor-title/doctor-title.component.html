@@ -1,0 +1,30 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="angle right icon" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <div class="content-addition">
+    <button class="ui button" (click)="newTitle()">新增职称</button>
+  </div>
+  <tab-set [menuClass]="'teal one item inverted content-tab'">
+    <tab title="职称数据维护">
+      <div *ngIf="!titleTable.lists&&titleTable.loading">Loading...</div>
+      <div *ngIf="titleTable.lists">
+        <dynamic-table [titles]="titleTable.titles" [lists]="titleTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+      </div>
+      <div *ngIf="!titleTable.lists&&!titleTable.loading" class="error-message">
+        <p>{{titleTable.errorMessage}}</p>
+        <button *ngIf="titleTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+  </tab-set>
+</div>
+<doctor-title-edit *ngIf="enableEdit"  [(enable)]="enableEdit"  [data]="doctortitle"  (handleEmit)="handleSuccess($event)"></doctor-title-edit>
+<modal-edit *ngIf="enableAudit" [(enable)]="enableAudit" [title]="'操作提示'" [message]="'您确定要删除？'">
+  <button class="ui button blue" (click)="refund('true')">确定</button>
+  <button class="ui button grey" (click)="refundCancel()">取消</button>
+</modal-edit>
+<modal-show *ngIf="enableShow" [title]="'提示信息'" [message]="message" [(enable)]="enableShow"></modal-show>

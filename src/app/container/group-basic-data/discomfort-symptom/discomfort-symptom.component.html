@@ -1,0 +1,34 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="angle right icon" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <div class="content-addition">
+    <button class="ui button" (click)="newDiscomfort()">新增不适症状</button>
+  </div>
+  <div class="table-title">{{subTitle}}</div>
+  <div class="table-content">
+    <div id="discomfortType" class="ui fluid selection dropdown">
+      <i class="dropdown icon"></i>
+      <div class="text">{{selectedType.name}}</div>
+      <div class="menu">
+        <div class="item" *ngFor="let opt of discomfortType" [attr.data-value]="opt" (click)="getType(opt)">{{opt.name}}</div>
+      </div>
+    </div>
+    <div *ngIf="discomfortTable.lists">
+      <dynamic-table [titles]="discomfortTable.titles" [lists]="discomfortTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+      <div class="table-nav" style="text-align: right">
+        <page-menu [totalPages]="discomfortTable.totalPage" [currentPage]="discomfortTable.currentPage" (pageEmitter)="getDiscomforts($event)"></page-menu>
+      </div>
+    </div>
+    <div *ngIf="!discomfortTable.lists" class="error-message">
+      <p>{{discomfortTable.errorMessage}}</p>
+      <button *ngIf="discomfortTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+    </div>
+  </div>
+</div>
+<discomfort-symptom-edit *ngIf="enableEdit" [typeList]="discomfortType" [data]="discomfortData" [(enable)]="enableEdit"  (handleEmit)="handleSuccess($event)"></discomfort-symptom-edit>
+<modal-show *ngIf="enableShow" [title]="'提示信息'" [message]="message" [(enable)]="enableShow"></modal-show>

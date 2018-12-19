@@ -1,0 +1,13 @@
+<div style="position: fixed;bottom: 0;right: 0;width: 40%">
+  <div id="imageShow" class="image-content" *ngIf="imgList">
+    <img [ngStyle]="{'width': imgWidth + '%'}" [(attr.src)]="imgList[index-1].imgUrl">
+  </div>
+  <div class="six ui mini buttons">
+    <button type="button" class="ui mini button" (click)="previous()" [disabled]="index===1">上一张</button>
+    <button class="ui mini button" disabled>{{index}}/{{imgList.length}}</button>
+    <button type="button" class="ui mini button" (click)="next()" [disabled]="index===imgList.length">下一张</button>
+    <button type="button" class="ui mini button" (click)="enlarge()">放大</button>
+    <button type="button" class="ui mini button" (click)="reduce()">缩小</button>
+    <button type="button" class="ui mini button" (click)="reset()">恢复</button>
+  </div>
+</div>

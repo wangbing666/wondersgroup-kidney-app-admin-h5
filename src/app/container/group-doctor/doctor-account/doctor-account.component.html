@@ -1,0 +1,44 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="angle right icon" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <tab-set [menuClass]="'teal two item inverted content-tab'">
+    <tab title="全部账户">
+      <div *ngIf="doctorAccountTable.lists">
+        <dynamic-table [titles]="doctorAccountTable.titles" [lists]="doctorAccountTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu [totalPages]="doctorAccountTable.totalPage" [currentPage]="doctorAccountTable.currentPage" (pageEmitter)="getDoctorAccounts($event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!doctorAccountTable.lists" class="error-message">
+        <p>{{doctorAccountTable.errorMessage}}</p>
+        <button *ngIf="doctorAccountTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+    <tab title="提现处理" [label]="count">
+      <div *ngIf="withdrawDepositTable.lists">
+        <dynamic-table [titles]="withdrawDepositTable.titles" [lists]="withdrawDepositTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu [totalPages]="withdrawDepositTable.totalPage" [currentPage]="withdrawDepositTable.currentPage" (pageEmitter)="getWithdrawDeposits($event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!withdrawDepositTable.lists" class="error-message">
+        <p>{{withdrawDepositTable.errorMessage}}</p>
+        <button *ngIf="withdrawDepositTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+  </tab-set>
+</div>
+<income-detail *ngIf="enableIncome" [(enable)]="enableIncome" [data]="incomeData"></income-detail>
+<withdraw-detail *ngIf="enableWithdraw" [(enable)]="enableWithdraw" [data]="withdrawData">
+</withdraw-detail>
+<modal-edit *ngIf="enableRefund" [(enable)]="enableRefund" [title]="'操作提示'" [message]="'确定打款成功？'">
+  <button class="ui button blue" (click)="refund(true)">成功</button>
+  <button class="ui button red" (click)="refund(false)">失败</button>
+  <button class="ui button grey" (click)="refundCancel()">取消</button>
+</modal-edit>
+<modal-show *ngIf="enableShow" [title]="'提示信息'" [message]="message" [(enable)]="enableShow"></modal-show>

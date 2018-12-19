@@ -1,0 +1,1 @@
+export * from './discomfort-symptom-edit.component';

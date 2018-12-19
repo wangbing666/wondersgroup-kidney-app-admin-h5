@@ -1,0 +1,51 @@
+<div class="field">
+  <label for="name">药品名称</label>
+  <input id="name" type="text" name="name" placeholder="输入药品名称可进行搜索" (blur)="saveAsDraft()" (change)="search($event)" (keyup)="search($event)" [(ngModel)]="info.name" #name required>
+  <div class="ui middle aligned divided selection list" style="background-color: #fff">
+    <div class="item" *ngFor="let result of results$">
+      <div class="content">
+        <div class="header" (click)="selected(result)">{{result.name}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="field">
+  <label for="method">建议用法</label>
+  <input id="method" type="text" name="method" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.method">
+</div>
+<div class="field">
+  <label for="take">服用剂量</label>
+  <input id="take" type="text" name="take" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.take" required>
+</div>
+<div class="field">
+  <label for="unit">剂量单位</label>
+  <input id="unit" type="text" name="unit" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.unit">
+</div>
+<div class="field">
+  <label for="dose">药量</label>
+  <input id="dose" type="text" name="dose" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.dose">
+</div>
+<div class="field">
+  <label for="frequency">频率</label>
+  <input id="frequency" type="text" name="frequency" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.frequency" placeholder="例如：一日两次">
+</div>
+<div class="field">
+  <label for="spec">规格</label>
+  <input id="spec" type="text" name="spec" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.spec" placeholder="例如：两盒，若无则空着">
+</div>
+<div class="field">
+  <label for="time">服药时间</label>
+  <input id="time" type="text" name="time" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.time" required>
+</div>
+<div class="field">
+  <label for="startTime{{index}}">开始时间</label>
+  <input id="startTime{{index}}" type="text" name="startTime" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.startTime" required>
+</div>
+<div class="field">
+  <label for="remind">提醒开关</label>
+  <select class="ui dropdown" id="remind" name="remind" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.remind" required>
+    <option value=""></option>
+    <option value="true">开启</option>
+    <option value="false">关闭</option>
+  </select>
+</div>

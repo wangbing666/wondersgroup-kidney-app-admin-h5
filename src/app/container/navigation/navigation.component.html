@@ -1,0 +1,64 @@
+<header class="app-toolbar">
+  <div class="toolbar-container">
+    <div class="ui grid">
+      <div class="three wide column left aligned">
+        <div class="menu-button" (click)="toggleSidebar()">
+          <i class="content icon"></i>
+        </div>
+      </div>
+      <div class="ten wide column menu-title">
+        <a href="/">移植管家后台管理系统</a>
+      </div>
+      <div class="three wide column right aligned">
+        <div class="menu-button" (click)="logout()">
+          <i class="power icon"></i> 退出
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="app-main">
+  <nav class="app-sidebar" [class.closed]="!sidebarActive">
+    <ul id="sidebar" class="sidebar-list" *ngIf="sidebarService.getSidebars()">
+      <li *ngFor="let sidebar of sidebarService.getSidebars()">
+        <div class="sidebar-item" [class.open]="sidebar.open">
+          <div class="sidebar-title">
+
+            <a 
+              *ngIf="!sidebar.ifSub"
+              [class.sidebar-active]="sidebar.active" 
+              (click)="setActive(sidebar)"
+            >
+              {{sidebar.title}}
+              <b class="ui empty circular label" *ngIf="sidebar.tag"></b>
+            </a>
+
+            <span *ngIf="sidebar.ifSub" (click)="toggleSub(sidebar)">
+              {{sidebar.title}}
+              <b class="ui empty circular label" *ngIf="sidebar.tag"></b>
+              <i class="angle left icon"></i>
+            </span>
+
+          </div>
+        </div>
+        <ul class="sidebar-sub-list" *ngIf="sidebar.ifSub">
+          <li class="sidebar-sub-item" *ngFor="let subSidebar of sidebar?.subBars">
+            <div class="sidebar-sub-title">
+
+              <a 
+                [class.sidebar-active]="subSidebar.active" 
+                (click)="setActive(subSidebar)">
+                {{subSidebar.title}}
+                <b class="ui circular label" *ngIf="subSidebar.tag">{{subSidebar.tag}}</b>
+              </a>
+
+            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <div id="container" class="app-container">
+    <ng-content></ng-content>
+  </div>
+</div>

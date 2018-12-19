@@ -1,0 +1,23 @@
+<div class="field">
+  <label for="itemId">检查名称</label>
+  <select *ngIf="data.itemId" id="itemId" class="ui fluid dropdown" name="itemId" [(ngModel)]="info.itemId" required disabled>
+    <option *ngFor="let item of inspectionType" value="{{item.id}}">{{item.name}}</option>
+  </select>
+  <select *ngIf="!data.itemId" id="itemId" class="ui fluid dropdown" name="itemId" (change)="saveAsDraft()" [(ngModel)]="info.itemId" required>
+    <option *ngFor="let item of inspectionType" value="{{item.id}}">{{item.name}}</option>
+  </select>
+</div>
+<div *ngIf="selectedType&&this.info&&this.info.list">
+  <div class="ui grid">
+    <div class="three wide column" style="text-align: center;">检查指标</div>
+    <div class="two wide column" style="text-align: center;">下限值</div>
+    <div class="two wide column" style="text-align: center;">上限值</div>
+    <div class="two wide column" style="text-align: center;">参考值</div>
+    <div class="two wide column" style="text-align: center;">单位</div>
+    <div class="two wide column" style="text-align: center;">数值</div>
+    <div class="two wide column" style="text-align: center;">标准</div>
+  </div>
+  <div *ngFor="let item of this.info.list">
+    <app-inspection-item-form [data]="item" (dataChange)="saveAsDraft()"></app-inspection-item-form>
+  </div>
+</div>

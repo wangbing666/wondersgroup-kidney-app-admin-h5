@@ -1,0 +1,84 @@
+form{
+	font-size: 16px;
+}
+.right{
+	text-align: right;
+}
+.com{
+	margin-top:20px;
+}
+.link{
+	margin-top: 210px;
+}
+.time{
+	margin-top:98px;
+}
+input{
+	display: inline-block;
+}
+.doctor{
+	display: inline-block;
+	margin-left: 30px;
+}
+.radio input{
+	  cursor: pointer;
+    width: 17px;
+    height: 17px;
+    
+}
+.radio{
+	height: 20px;
+	clear: both;
+}
+.radio span{
+	display: inline-block;
+	height: 20px;
+	line-height: 20px;
+}
+.error-message{
+	color: red;
+}
+.radio-group {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.radio-button {
+  margin: 15px 0;
+}
+
+/*.example-selected-value {
+  margin: 15px 0;
+}*/
+.float-left{
+	float: left;
+	width: 30%;
+}
+.float-right{
+	float: left;
+	width: 70%;
+}
+.skip-url{
+	margin-top: 10px;
+}
+.skip-app{
+	margin-top: 20px;
+}
+.option{
+	display: inline-block;
+	width: 50%;
+	float: left;
+}
+.number{
+	display: inline;
+	float: right;
+}
+.number input{
+	width: 150px;
+}
+.number span{
+	line-height: 38px;
+}
+.sendtime{
+	margin-top: 150px;
+}

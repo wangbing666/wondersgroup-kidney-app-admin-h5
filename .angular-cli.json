@@ -1,0 +1,64 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "project": {
+    "name": "wondersgroup-kidney-app-admin-h5"
+  },
+  "apps": [{
+    "root": "src",
+    "outDir": "build",
+    "assets": [
+      "assets",
+      "favicon.ico"
+    ],
+    "index": "index.html",
+    "main": "main.ts",
+    "polyfills": "polyfills.ts",
+    "test": "test.ts",
+    "tsconfig": "tsconfig.app.json",
+    "testTsconfig": "tsconfig.spec.json",
+    "prefix": "app",
+    "styles": [
+      "styles.css",
+      "../node_modules/semantic-ui-css/semantic.min.css",
+      "../node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css",
+      "../node_modules/wangeditor/dist/css/wangEditor.css",
+      "../node_modules/flatpickr/dist/flatpickr.min.css"
+    ],
+    "scripts": [
+      "../node_modules/jquery/dist/jquery.js",
+      "../node_modules/semantic-ui-css/semantic.min.js",
+      "../node_modules/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js",
+      "../node_modules/wangeditor/dist/js/wangEditor.js",
+      "../node_modules/flatpickr/dist/flatpickr.min.js",
+      "../node_modules/flatpickr/dist/l10n/zh.js",
+      "../node_modules/ng-table-excel-export/ng-table-excel-export.js"
+    ],
+    "environmentSource": "environments/environment.ts",
+    "environments": {
+      "dev": "environments/environment.ts",
+      "test": "environments/environment.test.ts",
+      "prod": "environments/environment.prod.ts"
+    }
+  }],
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
+    }
+  },
+  "lint": [{
+    "project": "src/tsconfig.app.json"
+  }, {
+    "project": "src/tsconfig.spec.json"
+  }, {
+    "project": "e2e/tsconfig.e2e.json"
+  }],
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "css",
+    "component": {}
+  }
+}

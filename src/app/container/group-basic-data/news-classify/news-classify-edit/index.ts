@@ -1,0 +1,1 @@
+export * from './news-classify-edit.component';

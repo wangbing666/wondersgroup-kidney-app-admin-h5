@@ -1,0 +1,88 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="angle right icon" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    <i class="reply icon" style="cursor: pointer;" (click)="goback()"></i> {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <div *ngIf="errorMessage" class="error-message">
+    <p>{{errorMessage}}</p>
+    <button type="button" class="ui button small" (click)="getDataCollection()">点击刷新</button>
+  </div>
+  <div *ngIf="userInfo">
+    <div *ngIf="userInfo.status!==1&&userInfo.status!==3">
+      <div class="ui two column grid data-container">
+        <div *ngIf="userInfo&&userInfo.recordHistoryDtoList" class="column">
+          <div style="padding-bottom: 50px">
+            <app-userinfo [user]="userInfo"></app-userinfo>
+          </div>
+          <div *ngIf="userInfo&&userInfo.recordHistoryDtoList&&commonList" class="column">
+            <div id="dataShow" class="show-container">
+              <div *ngFor="let obj of userInfo.recordHistoryDtoList;let i=index" class="show-content">
+                <h4 class="ui horizontal divider">病史资料{{i+1}}</h4>
+                <ul class="data-list">
+                  <li #edit hidden="true">
+                    <app-edit-form *ngIf="!edit.hidden" [id]="userInfo.id" [editFormData]="setUpdateData(obj,obj.recordHistoryType)" [images]="userInfo.medicalRecordPhotoList" (saveSuccess)="saveSuccess($event)" (cancelEmmiter)="tocancel(edit)" index="{{obj.id}}edit"></app-edit-form>
+                  </li>
+                  <li *ngFor="let user of commonList">
+                    <h4 class="inline">{{user.title}}:</h4> {{obj[user.key]}}
+                  </li>
+                  <li #f hidden="true">
+                    <div *ngIf="obj.recordHistoryType==1">
+                      <app-report-detail [info]="obj.object"></app-report-detail>
+                    </div>
+                    <div *ngIf="obj.recordHistoryType==2">
+                      <app-brief-detail [info]="obj.object"></app-brief-detail>
+                    </div>
+                    <div *ngIf="obj.recordHistoryType==4">
+                      <app-medical-detail [info]="obj.object"></app-medical-detail>
+                    </div>
+                    <div *ngIf="obj.recordHistoryType==5">
+                      <app-record-detail [info]="obj.object"></app-record-detail>
+                    </div>
+                    <div *ngIf="obj.recordHistoryType==6">
+                      <app-other-detail [info]="obj.object"></app-other-detail>
+                    </div>
+                    <div *ngFor="let img of obj.medicalRecordPhotoList" class="show-image">
+                      <img src="{{img.imgUrl}}">
+                    </div>
+                  </li>
+                </ul>
+                <div class="show-button">
+                  <button type="button" class="ui mini button" (click)="toedit(edit)">编辑资料</button>
+                  <button type="button" class="ui mini button" (click)="todel(obj)">删除资料</button>
+                  <button type="button" class="ui mini button" (click)="toggle(f,b)" #b>展开详情</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h3 class="ui center aligned header">新增病史资料</h3>
+            <div class="ui clearing divider"></div>
+            <div *ngFor="let editForm of editFormList;let i=index" class="form-list">
+              <div class="right-button">
+                <button type="button" class="ui right labeled icon button" (click)="delForm(i)">
+                  删除病史资料{{i+1}}
+                  <i class="remove icon"></i></button>
+              </div>
+              <h3 class="ui horizontal divider">病史资料{{i+1}}</h3>
+              <app-edit-form [id]="userInfo.id" [editFormData]="editForm" (dataChange)="dataChange($event,i)" [images]="userInfo.medicalRecordPhotoList" (saveSuccess)="saveSuccess($event)" index="{{i}}add"></app-edit-form>
+              <div class="ui divider"></div>
+            </div>
+            <button type="button" class="ui button" (click)="newForm()">+添加一项资料</button>
+          </div>
+          <div class="ui divider"></div>
+          <div class="ui field">
+            <button type="button" class="ui button" (click)="toPass()">提交审核</button>
+            <auditing [id]="userInfo.id" (cancel)="passEnable=false" (done)="done($event)" [hidden]="passEnable" *ngIf="passEnable"></auditing>
+          </div>
+        </div>
+        <div *ngIf="userInfo&&userInfo.medicalRecordPhotoList" class="column image-container">
+          <app-image-show [imgList]="userInfo.medicalRecordPhotoList"></app-image-show>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<modal-show *ngIf="enableShow" [title]="'提示信息'" [message]="message" [(enable)]="enableShow"></modal-show>

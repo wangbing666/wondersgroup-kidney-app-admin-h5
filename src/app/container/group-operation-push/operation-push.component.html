@@ -1,0 +1,102 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="fa fa-angle-right" aria-hidden="true" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <div class="content-addition">
+    <button class="ui button" (click)="newOperationPush()">新增Push</button>
+  </div>
+  <tab-set [menuClass]="'teal two item inverted content-tab'">
+    <tab title="患者端">
+      <div *ngIf="!operationPushTable.lists&&operationPushTable.loading">Loading...</div>
+      <div *ngIf="operationPushTable.lists">
+				<div class="table-container">
+				  <table class="table">
+				    <thead>
+				      <tr>
+				        <th *ngFor="let title of operationPushTable.titles">{{title.name}}</th>
+				      </tr>
+				    </thead>
+				    <tbody>
+				      <tr *ngFor="let list of operationPushTable.lists">
+				        <td *ngFor="let title of operationPushTable.titles" [ngSwitch]="title.controlType" data-title="{{title.name}}">
+				          <div *ngSwitchCase="'text'" [style.minWidth.px]="title.minwidth" [style.maxWidth.px]="title.maxwidth">
+				            <span>{{list[title.key] == 0 ? list[title.key] : list[title.key] || ''}}</span>
+				          </div>
+				          <div *ngSwitchCase="'showEdit'" [style.minWidth.px]="title.minwidth">
+				            <button class="mini ui button" *ngIf= "list[title.key] ==0" (click)="gotoHandle('send',list)">
+				              发送
+				            </button>
+				            <button class="mini ui button" *ngIf= "list[title.key] ==0" (click)="gotoHandle('edit',list)">
+				              编辑
+				            </button>
+				            <button class="mini ui button"  (click)="gotoHandle('delete',list)" >
+				              删除
+				            </button>
+				          </div>
+				        </td>
+				      </tr>
+				    </tbody>
+				  </table>
+				</div>
+        <div class="table-nav" style="text-align: right">
+          <page-menu *ngIf="operationPushTable.lists" [totalPages]="operationPushTable.totalPage" [currentPage]="operationPushTable.currentPage" (pageEmitter)="getOperationPushUser($event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!operationPushTable.lists&&!operationPushTable.loading" class="error-message">
+        <p>{{operationPushTable.errorMessage}}</p>
+        <button *ngIf="operationPushTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+    <tab title="医生端">
+      <div *ngIf="!operationPushDoctorTable.lists&&operationPushDoctorTable.loading">Loading...</div>
+      <div *ngIf="operationPushDoctorTable.lists">
+        <div class="table-container">
+				  <table class="table">
+				    <thead>
+				      <tr>
+				        <th *ngFor="let title of operationPushTable.titles">{{title.name}}</th>
+				      </tr>
+				    </thead>
+				    <tbody>
+				      <tr *ngFor="let list of operationPushDoctorTable.lists">
+				        <td *ngFor="let title of operationPushTable.titles" [ngSwitch]="title.controlType" data-title="{{title.name}}">
+				          <div *ngSwitchCase="'text'" [style.minWidth.px]="title.minwidth" [style.maxWidth.px]="title.maxwidth">
+				            <span>{{list[title.key] == 0 ? list[title.key] : list[title.key] || ''}}</span>
+				          </div>
+				          <div *ngSwitchCase="'showEdit'" [style.minWidth.px]="title.minwidth">
+				            <button class="mini ui button" *ngIf= "list[title.key] ==0" (click)="gotoHandle('send',list)">
+				              发送
+				            </button>
+				            <button class="mini ui button" *ngIf= "list[title.key] ==0" (click)="gotoHandle('edit',list)">
+				              编辑
+				            </button>
+				            <button class="mini ui button"  (click)="gotoHandle('delete',list)" >
+				              删除
+				            </button>
+				          </div>
+				        </td>
+				      </tr>
+				    </tbody>
+				  </table>
+				</div>
+        <div class="table-nav" style="text-align: right">
+          <page-menu *ngIf="operationPushDoctorTable.lists" [totalPages]="operationPushDoctorTable.totalPage" [currentPage]="operationPushDoctorTable.currentPage" (pageEmitter)="getOperationPushDoctor($event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!operationPushDoctorTable.lists&&!operationPushDoctorTable.loading" class="error-message">
+        <p>{{operationPushDoctorTable.errorMessage}}</p>
+        <button *ngIf="operationPushDoctorTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+  </tab-set>
+</div>
+<operation-push-edit *ngIf="enableEdit" [(enable)]="enableEdit"  [data]="operationpush" (handleEmit)="handleSuccess($event)"></operation-push-edit>
+<modal-edit *ngIf="enableProcess" [(enable)]="enableProcess" [title]="'操作提示'" [message]="processMessage">
+  <button class="ui button blue" (click)="process($event)">确定</button>
+  <button class="ui button" (click)="processCancel()">取消</button>
+</modal-edit>
+<modal-show *ngIf="enableShow" [(enable)]="enableShow" [title]="titleShow" [message]="message"></modal-show>

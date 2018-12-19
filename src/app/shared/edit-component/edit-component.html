@@ -1,0 +1,10 @@
+<div class="modal-full">
+  <i class="close icon" (click)="close()"></i>
+  <div class="modal-header">
+    {{modalTitle}}
+  </div>
+  <div class="modal-container">
+    <div *ngIf="errorMessage" class="error-message">* {{errorMessage}}</div>
+    <dynamic-form *ngIf="formDatas" [formDatas]="formDatas" (formValues)="getValues($event)"></dynamic-form>
+  </div>
+</div>

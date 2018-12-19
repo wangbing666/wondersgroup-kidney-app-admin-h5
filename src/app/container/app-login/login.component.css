@@ -1,0 +1,41 @@
+.login-header {
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  background-color: #0a819c;
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+}
+
+.login-header > h3 {
+  line-height: inherit;
+}
+
+.login-container {
+  position: absolute;min-width: 723px;
+
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 3px solid #0a819c;
+}
+
+.login-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 320px;
+  height: 260px;
+  margin-left: -160px;
+  margin-top: -130px;
+  border: 1px solid rgba(34, 36, 38, .15);
+  padding: 30px;
+}
+
+.login-button {
+  text-align: right;
+}

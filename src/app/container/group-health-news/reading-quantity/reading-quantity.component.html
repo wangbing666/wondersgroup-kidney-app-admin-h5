@@ -1,0 +1,27 @@
+<modal-full [modalTitle]="modalTitle" (closeEmmit)="close()">
+  <div *ngIf="errorMessage" class="error-message">* {{errorMessage}}</div>
+  <form (ngSubmit)="onSubmit()" #contactForm="ngForm" class="ui form error" style="padding: 30px 0">
+    <div class="ui grid">
+      <div class="three wide column">
+        <div class="right" *ngIf="reading">请选择</div>
+        <div class="right com">{{modalTitle}}</div>
+      </div>
+      <div class="nine wide column">
+        <div *ngIf="reading">
+          <select class="ui fluid dropdown" [(ngModel)]="type" name="type" id="list" (change)="getClient(type)">
+            <option *ngFor="let type of types" [value]="type.id">{{type.name}}</option>
+          </select>
+        </div>
+        <div class="com">
+          <input type="text" [(ngModel)]="parameter" name="parameter" id="parameter" class="parameter"> 
+        </div>
+        <div class="com" style="display: none">
+          <input type="text" [(ngModel)]="id" name="id" id="id" class="id"> 
+        </div>
+        <div class="com">
+          <button class="ui submit button" type="button" (click)="getSave(contactForm.value)" [disabled]="!contactForm.valid">保存</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</modal-full>

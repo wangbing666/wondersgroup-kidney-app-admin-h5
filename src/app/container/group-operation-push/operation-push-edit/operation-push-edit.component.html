@@ -1,0 +1,63 @@
+<modal-full [modalTitle]="modalTitle" (closeEmmit)="close()">
+  <div *ngIf="errorMessage" class="error-message">* {{errorMessage}}</div>
+  <form (ngSubmit)="onSubmit()" #contactForm="ngForm" class="ui form error" style="padding: 30px 0">
+    <div class="ui grid">
+      <div class="three wide column">
+        <div class="right">发送APP：</div>
+        <div class="right com">push内容：</div>
+        <div class="right link">push链接：</div>
+        <div class="right time">发送时间：</div>
+      </div>
+      <div class="nine wide column">
+        <div class="client radio">
+          <md-radio-group class="example-radio-group" [(ngModel)]="push.appType" name="typeIdx">
+            <md-radio-button class="example-radio-button" [id]="client.id"  *ngFor="let client of clients" [value]="client.id" (click)="getclientRadio(client.id)">
+            {{client.name}}
+            </md-radio-button>
+          </md-radio-group>
+        </div>
+        <div class="com">
+          <textarea name="" id="" cols="30" rows="10" [(ngModel)]="push.content" name="content" required></textarea>
+        </div>
+        <div class="com">
+          <div class="float-left">
+            <md-radio-group class="radio-group" [(ngModel)]="skip" name="skip">
+              <md-radio-button class="radio-button" [id]="skip.id"  *ngFor="let skip of skips" [value]="skip.id" (click)="getSkipRadio(skip.id)">
+              {{skip.name}}
+              </md-radio-button>
+            </md-radio-group>
+          </div>
+          <div class="float-right">
+            <div class="skip-url">
+              <input type="url" [(ngModel)]="pushUrl" name="url">
+            </div>
+            <div class="skip-app">
+              <div class="option">
+                <select class="ui fluid dropdown" [(ngModel)]="type" name="type" id="list">
+                  <option *ngFor="let type of types" [value]="type.id">{{type.name}}</option>
+                </select>
+              </div>
+              <div class="number">
+                <span>序号：</span>
+                <input type="number" name="number" [(ngModel)]="number">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="com radio sendtime">
+          <md-radio-group class="example-radio-group" [(ngModel)]="push.isSend" name="send">
+            <md-radio-button class="example-radio-button" *ngFor="let send of sends" [value]="send.id" (click)="getRadio(send.id)">
+            {{send.name}}
+            </md-radio-button>
+          </md-radio-group>
+        </div>
+        <div class="com">
+          <input type="text" [(ngModel)]="time" name="pushTime" id="pushtime" class="pushtime">
+        </div>
+        <div class="com">
+          <button class="ui submit button" type="button" (click)="getSave()" [disabled]="!contactForm.valid">保存</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</modal-full>

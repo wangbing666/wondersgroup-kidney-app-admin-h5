@@ -1,0 +1,55 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="fa fa-angle-right" aria-hidden="true" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <tab-set [menuClass]="'teal two item inverted content-tab'">
+    <tab title="患者活跃度统计">
+      <form class="ui small form" style="margin: 15px 0 30px" #uf="ngForm">
+        <div class="inline fields">
+          <div class="field">
+            <input type="text" placeholder="选择日期范围" name="queryUserDate" [(ngModel)]="queryUserDate" id="patient" style="width: 200px">
+          </div>
+          <div class="field">
+            <button type="button" class="ui small button" (click)="clickUserSearch(queryUserDate)">搜索</button>
+          </div>
+        </div>
+      </form>
+
+      <div *ngIf="!userTable.lists&&userTable.loading">Loading...</div>
+    
+      <div *ngIf="userTable.lists">
+        <dynamic-table [titles]="userTable.titles" [lists]="userTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+      </div>
+      <div *ngIf="!userTable.lists&&!userTable.loading" class="error-message">
+        <p>{{userTable.errorMessage}}</p>
+        <button *ngIf="userTable.errorMessage" class="ui button small" (click)="defaultData()">点击刷新</button>
+      </div>
+    </tab>
+    <tab title="医生活跃度统计">
+      <form class="ui small form" style="margin: 15px 0 30px" #uf="ngForm">
+        <div class="inline fields">
+          <div class="field">
+            <input type="text" placeholder="选择日期范围" name="queryDoctorDate" [(ngModel)]="queryDoctorDate" id="doctor" style="width: 200px">
+          </div>
+          <div class="field">
+            <button type="button" class="ui small button" (click)="clickDoctorSearch(queryDoctorDate)">搜索</button>
+          </div>
+        </div>
+      </form>
+
+      <div *ngIf="!doctorTable.lists&&doctorTable.loading">Loading...</div>
+    
+      <div *ngIf="doctorTable.lists">
+        <dynamic-table [titles]="doctorTable.titles" [lists]="doctorTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+      </div>
+      <div *ngIf="!doctorTable.lists&&!doctorTable.loading" class="error-message">
+        <p>{{userTable.errorMessage}}</p>
+        <button *ngIf="doctorTable.errorMessage" class="ui button small" (click)="defaultData()">点击刷新</button>
+      </div>
+    </tab>
+  </tab-set>
+</div>

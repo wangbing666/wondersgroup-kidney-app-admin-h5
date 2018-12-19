@@ -1,0 +1,62 @@
+<modal-full [modalTitle]="'短信提醒'" (closeEmmit)="close()">
+  <div class="ui grid">
+    <div class="eight wide column">
+      <div class="selected-header">
+        <div class="header">医生列表:</div>
+      </div>
+      <div class="item-content" *ngIf="auditedTable.lists">
+        <div class="ui divided items">
+          <div class="item item-list" *ngFor="let item of auditedTable.lists" (click)="selectedItem(item)">
+            <div class="ui avatar image">
+              <img src="{{item.headPortrait}}">
+            </div>
+            <div class="middle aligned content">
+              {{item.name}}
+            </div>
+          </div>
+        </div>
+        <div class="item" style="text-align: center;">
+          <page-menu [totalPages]="auditedTable.totalPage" [currentPage]="auditedTable.currentPage" (pageEmitter)="getAuditedDoctors($event)"></page-menu>
+        </div>
+      </div>
+      <div class="ui item" *ngIf="!auditedTable.lists">
+        <div class="header">{{auditedTable.errorMessage}}</div>
+      </div>
+    </div>
+    <div class="eight wide column">
+      <div class="selected-header">
+        已选择的医生:
+      </div>
+      <div class="selected-content">
+        <div class="ui divided items" *ngIf="selectedItems.length!==0">
+          <div class="item" *ngFor="let item of selectedItems">
+            <div class="ui avatar image">
+              <img src="{{item.headPortrait}}">
+            </div>
+            <div class="middle aligned content">
+              {{item.name}}
+            </div>
+            <div class="remove-item" (click)="removeItem(item)"><i class="remove icon"></i></div>
+          </div>
+        </div>
+        <div class="ui item" *ngIf="selectedItems.length==0">
+          <div class="header"><span style="color: red">*</span> 你还没有选择任何医生</div>
+        </div>
+      </div>
+      <form #f="ngForm" (ngSubmit)="onSubmit(f.value)" class="ui form">
+        <div>
+        </div>
+        <div class="ui field">
+          <textarea rows="8" placeholder="请编辑短信内容" name="message" [(ngModel)]="message" required></textarea>
+        </div>
+        <div class="ui field" style="text-align: right;">
+          <button class="ui blue button" type="submit">发送</button>
+          <button class="ui button" type="reset" (click)="reset()">重置</button>
+        </div>
+      </form>
+      <div class="ui item err-msg" *ngIf="errorMessage" [style.color]="errorColor">
+        {{errorMessage}}
+      </div>
+    </div>
+  </div>
+</modal-full>

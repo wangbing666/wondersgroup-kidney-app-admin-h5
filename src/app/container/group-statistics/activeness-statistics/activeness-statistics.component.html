@@ -1,0 +1,81 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="fa fa-angle-right" aria-hidden="true" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <tab-set [menuClass]="'teal two item inverted content-tab'">
+    <tab title="患者日活跃度统计">
+      <form class="ui small form" style="margin: 15px 0 30px" #uf="ngForm" (ngSubmit)="getUserActivenessStatistics(0)">
+        <div class="inline fields">
+          <div class="field">
+            <input type="text" placeholder="手机号／姓名搜索" name="queryUserKey" [(ngModel)]="queryUserKey">
+          </div>
+          <div class="field">
+            <input type="text" placeholder="日期格式：2010-01-01" name="queryUserDate" [(ngModel)]="queryUserDate" id="patient" >
+          </div>
+          <div class="field">
+            <button type="submit" class="ui small button">搜索</button>
+          </div>
+          <div class="field">
+            <button type="button" class="ui small button" (click)="resetUser()">全部</button>
+          </div>
+        </div>
+      </form>
+      <div *ngIf="!userActivenessTable.lists&&userActivenessTable.loading">Loading...</div>
+      <div *ngIf="userStatistics" style="text-align: center;font-size: 16px;font-weight: 700">
+        <span style="padding-right: 10px">当日登录总数：{{userStatistics.loginTotal}}</span>
+        <span style="padding-right: 10px">当日登录人数：{{userStatistics.loginCount}}</span>
+        <span style="padding-right: 10px">当日登录率：{{userStatistics.loginRate}}</span>
+        <span style="padding-right: 10px">人均登录数：{{userStatistics.loginAverage}}</span>
+      </div>
+      <div *ngIf="userActivenessTable.lists">
+        <dynamic-table [titles]="userActivenessTable.titles" [lists]="userActivenessTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu *ngIf="userActivenessTable.lists" [totalPages]="userActivenessTable.totalPage" [currentPage]="userActivenessTable.currentPage" (pageEmitter)="getUserActivenessStatistics($event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!userActivenessTable.lists&&!userActivenessTable.loading" class="error-message">
+        <p>{{userActivenessTable.errorMessage}}</p>
+        <button *ngIf="userActivenessTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+    <tab title="医生日活跃度统计">
+      <form class="ui small form" style="margin: 15px 0 30px" #df="ngForm" (ngSubmit)="getDoctorActivenessStatistics(0)">
+        <div class="inline fields">
+          <div class="field">
+            <input type="text" placeholder="手机号／姓名搜索" name="queryDoctorKey" [(ngModel)]="queryDoctorKey">
+          </div>
+          <div class="field">
+            <input type="text" placeholder="日期格式：2010-01-01" name="queryDoctorDate" [(ngModel)]="queryDoctorDate" id="doctor">
+          </div>
+          <div class="field">
+            <button type="submit" class="ui small button">搜索</button>
+          </div>
+          <div class="field">
+            <button type="button" class="ui small button" (click)="resetDoctor()">全部</button>
+          </div>
+        </div>
+      </form>
+      <div *ngIf="!doctorActivenessTable.lists&&doctorActivenessTable.loading">Loading...</div>
+      <div *ngIf="doctorStatistics" style="text-align: center;font-size: 16px;font-weight: 700">
+        <span style="padding-right: 10px">当日登录总数：{{doctorStatistics.loginTotal}}</span>
+        <span style="padding-right: 10px">当日登录人数：{{doctorStatistics.loginCount}}</span>
+        <span style="padding-right: 10px">当日登录率：{{doctorStatistics.loginRate}}</span>
+        <span style="padding-right: 10px">人均登录数：{{doctorStatistics.loginAverage}}</span>
+      </div>
+      <div *ngIf="doctorActivenessTable.lists">
+        <dynamic-table [titles]="doctorActivenessTable.titles" [lists]="doctorActivenessTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu [totalPages]="doctorActivenessTable.totalPage" [currentPage]="doctorActivenessTable.currentPage" (pageEmitter)="getDoctorActivenessStatistics($event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!doctorActivenessTable.lists&&!doctorActivenessTable.loading" class="error-message">
+        <p>{{doctorActivenessTable.errorMessage}}</p>
+        <button *ngIf="doctorActivenessTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+  </tab-set>
+</div>

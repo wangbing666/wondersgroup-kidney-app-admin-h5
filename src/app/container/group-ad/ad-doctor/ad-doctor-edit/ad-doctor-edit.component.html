@@ -1,0 +1,9 @@
+<edit-component 
+      *ngIf="formDatas"
+      [modalTitle]="modalTitle" 
+      [formDatas]="formDatas" 
+      [errorMessage]="errorMessage"
+      (valueEmmit)="getValue($event)"
+      (closeEmmit)="close()"
+    >
+    </edit-component>

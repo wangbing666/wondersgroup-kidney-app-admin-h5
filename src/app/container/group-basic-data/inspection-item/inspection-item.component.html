@@ -1,0 +1,35 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="angle right icon" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <div class="content-addition">
+    <button class="ui button" (click)="newItem()">新增检查类目</button>
+  </div>
+  <div class="table-title">{{subTitle}}</div>
+  <div class="table-content">
+    <div id="type" class="ui fluid selection dropdown">
+      <i class="dropdown icon"></i>
+      <div class="text">{{selectedType.name}}</div>
+      <div class="menu">
+        <div class="item" *ngFor="let opt of inspectionType" [attr.data-value]="opt" (click)="getType(opt)">{{opt.name}}</div>
+      </div>
+    </div>
+    <div *ngIf="!inspectionItemTable.lists&&inspectionItemTable.loading">Loading...</div>
+    <div *ngIf="inspectionItemTable.lists">
+      <dynamic-table [titles]="inspectionItemTable.titles" [lists]="inspectionItemTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+      <div class="table-nav" style="text-align: right">
+        <page-menu *ngIf="inspectionItemTable.lists" [totalPages]="inspectionItemTable.totalPage" [currentPage]="inspectionItemTable.currentPage" (pageEmitter)="getInspectionItems($event)"></page-menu>
+      </div>
+    </div>
+    <div *ngIf="!inspectionItemTable.lists&&!inspectionItemTable.loading" class="error-message">
+      <p>{{inspectionItemTable.errorMessage}}</p>
+      <button *ngIf="inspectionItemTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+    </div>
+  </div>
+</div>
+<app-inspection-item-edit *ngIf="enableEdit" [data]="inspectionItemData" [(enable)]="enableEdit" (handleEmit)="handleSuccess($event)" [inspectionType]="inspectionType"></app-inspection-item-edit>
+<modal-show *ngIf="enableShow" [title]="'提示信息'" [message]="message" [(enable)]="enableShow"></modal-show>

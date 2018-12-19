@@ -1,0 +1,32 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="fa fa-angle-right" aria-hidden="true" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    <strong>{{subTitle}}</strong>
+  </div>
+  <div class="content-addition">
+    <button class="ui button" (click)="newAd()">新增广告</button>
+  </div>
+  <div class="table-title">{{subTitle}}</div>
+  <div class="table-content">
+    <div *ngIf="!adTable.lists&&adTable.loading">Loading...</div>
+    <div *ngIf="adTable.lists">
+      <dynamic-table [titles]="adTable.titles" [lists]="adTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+      <div class="table-nav" style="text-align: right">
+        <page-menu [totalPages]="adTable.totalPage" [currentPage]="adTable.currentPage" (pageEmitter)="getAds($event)"></page-menu>
+      </div>
+    </div>
+    <div *ngIf="!adTable.lists&&!adTable.loading" class="error-message">
+        <p>{{adTable.errorMessage}}</p>
+        <button *ngIf="adTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+    </div>
+  </div>
+</div>
+<ad-doctor-edit *ngIf="enableEdit" [(enable)]="enableEdit"  [data]="Ad" (handleEmit)="handleSuccess($event)"></ad-doctor-edit>
+<modal-edit *ngIf="enableProcess" [(enable)]="enableProcess" [title]="'操作提示'" [message]="processMessage">
+  <button class="ui button blue" (click)="process($event)">确定</button>
+  <button class="ui button" (click)="processCancel()">取消</button>
+</modal-edit>
+<modal-show *ngIf="enableShow" [(enable)]="enableShow" [title]="titleShow" [message]="message"></modal-show>

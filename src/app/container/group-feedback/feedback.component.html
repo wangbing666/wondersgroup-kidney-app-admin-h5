@@ -1,0 +1,27 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="angle right icon" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    
+  </div>
+  <div class="content-addition">
+    
+  </div>
+  <div class="table-title">{{subTitle}}</div>
+  <div class="table-content">
+    <div *ngIf="feedbackTable.lists">
+      <dynamic-table [titles]="feedbackTable.titles" [lists]="feedbackTable.lists"></dynamic-table>
+      <div class="table-nav" style="text-align: right">
+          <page-menu *ngIf="feedbackTable.lists" [totalPages]="feedbackTable.totalPage" [currentPage]="feedbackTable.currentPage" (pageEmitter)="getFeedbacks($event)"></page-menu>
+      </div>
+    </div>
+    <div *ngIf="!feedbackTable.lists" class="error-message">
+        <p>{{feedbackTable.errorMessage}}</p>
+        <button class="ui button small" (click)="refresh()">点击刷新</button>
+    </div>
+  </div>
+</div>
+<!--<modal-show *ngIf="enableShow" [title]="titleShow" [message]="message" [(enable)]="enableShow"></modal-show>-->
+

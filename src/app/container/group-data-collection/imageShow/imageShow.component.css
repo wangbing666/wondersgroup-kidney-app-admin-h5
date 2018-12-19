@@ -1,0 +1,13 @@
+.image-content {
+  position: relative;
+  width: 100%;
+  height: 445px;
+  overflow: hidden;
+  border: 10px solid #fff;
+}
+
+.image-content img {
+  display: block;
+  width: 300%;
+  cursor: pointer;
+}

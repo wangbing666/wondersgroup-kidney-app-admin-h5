@@ -1,0 +1,22 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="fa fa-angle-right" aria-hidden="true" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <div class="table-title">{{subTitle}}</div>
+  <div class="table-content">
+    <div *ngIf="pushTimeTable.lists">
+      <div *ngIf="!pushTimeTable.lists&&pushTimeTable.loading">Loading...</div>
+      <dynamic-table [titles]="pushTimeTable.titles" [lists]="pushTimeTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+    </div>
+    <div *ngIf="!pushTimeTable.lists&&!pushTimeTable.loading" class="error-message">
+        <p>{{pushTimeTable.errorMessage}}</p>
+        <button *ngIf="pushTimeTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+    </div>
+  </div>
+</div>
+<push-time-edit *ngIf="enableEdit" [(enable)]="enableEdit"  [data]="pushtime" (handleEmit)="handleSuccess($event)"></push-time-edit>
+<modal-show *ngIf="enableShow" [(enable)]="enableShow" [title]="titleShow" [message]="message"></modal-show>

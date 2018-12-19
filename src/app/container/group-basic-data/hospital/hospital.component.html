@@ -1,0 +1,28 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="angle right icon" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <div class="content-addition">
+    <button class="ui button" (click)="newHospital()">新增医院</button>
+  </div>
+  <div class="table-title">{{subTitle}}</div>
+  <div class="table-content">
+    <div *ngIf="hospitalTable.lists">
+      <dynamic-table [titles]="hospitalTable.titles" [lists]="hospitalTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+      <div class="table-nav" style="text-align: right">
+          <page-menu *ngIf="hospitalTable.lists" [totalPages]="hospitalTable.totalPage" [currentPage]="hospitalTable.currentPage" (pageEmitter)="getHospitals($event)"></page-menu>
+      </div>
+    </div>
+    <div *ngIf="!hospitalTable.lists" class="error-message">
+        <p>{{hospitalTable.errorMessage}}</p>
+        <button class="ui button small" (click)="refresh()">点击刷新</button>
+    </div>
+  </div>
+</div>
+<app-hospital-edit *ngIf="enableEdit" [data]="hospital"  [(enable)]="enableEdit" (handleEmit)="handleSuccess($event)"></app-hospital-edit>
+<modal-show *ngIf="enableShow" [title]="'提示信息'" [message]="message" [(enable)]="enableShow"></modal-show>
+

@@ -1,0 +1,39 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="fa fa-angle-right" aria-hidden="true" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <tab-set [menuClass]="'teal two item inverted content-tab'">
+    <tab title="患者统计">
+      <div *ngIf="!userTable.lists&&userTable.loading">Loading...</div>
+      <div *ngIf="userTable.lists">
+          <div  style="text-align:center;font-size:16px;"><strong>患者注册总数：{{userRegisterCount}}</strong></div>
+        <dynamic-table [titles]="userTable.titles" [lists]="userTable.lists"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu *ngIf="userTable.lists" [totalPages]="userTable.totalPage" [currentPage]="userTable.currentPage" (pageEmitter)="getUsers($event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!userTable.lists&&!userTable.loading" class="error-message">
+        <p>{{userTable.errorMessage}}</p>
+        <button *ngIf="userTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+    <tab title="医生统计">
+      <div *ngIf="!doctorTable.lists&&doctorTable.loading">Loading...</div>
+      <div *ngIf="doctorTable.lists">
+          <div style="text-align:center;font-size:16px;"><strong>医生注册总数：{{doctorRegisterCount}}&nbsp;&nbsp;&nbsp;&nbsp;审核通过总数：{{doctorValidateCount}}</strong></div>
+        <dynamic-table [titles]="doctorTable.titles" [lists]="doctorTable.lists"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu *ngIf="doctorTable.lists" [totalPages]="doctorTable.totalPage" [currentPage]="doctorTable.currentPage" (pageEmitter)="getDoctors($event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!doctorTable.lists&&!doctorTable.loading" class="error-message">
+        <p>{{doctorTable.errorMessage}}</p>
+        <button *ngIf="doctorTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+  </tab-set>
+</div>

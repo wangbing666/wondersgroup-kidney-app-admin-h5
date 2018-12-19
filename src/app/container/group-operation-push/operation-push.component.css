@@ -1,0 +1,87 @@
+.table-container {
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.table {
+  font-size: 13px;
+  width: 100%;
+  margin: 20px 0;
+  border-collapse: collapse;
+}
+
+.table > tbody > tr {
+  line-height: 1.5em;
+}
+
+.table > tbody > tr:hover {
+  border-left: 4px solid #e74c3c;
+}
+
+.table > thead > tr > th {
+  padding: 15px;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.table > tbody > tr > td {
+  min-height: 40px;
+  padding: 10px;
+  border-top: 1px solid rgba(230, 230, 230, .7);
+  word-wrap: break-word;
+  word-break: break-all;
+  color: #666;
+  text-align: center;
+}
+
+.table-img {
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  border-radius: 25px;
+  margin: 0 auto;
+}
+
+.table-img img {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 800px) {
+  .table,
+  .table > thead,
+  .table > thead > tr,
+  .table > thead > tr > th,
+  .table > tbody,
+  .table > tbody > tr,
+  .table > tbody > tr > td {
+    display: block;
+  }
+  .table > thead > tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  .table> tbody {
+    border-top: 1px solid $border-color;
+  }
+  .table> tbody > tr {
+    border: 1px solid $border-color;
+  }
+  .table> tbody > tr > td {
+    position: relative;
+    padding-left: 50%;
+    white-space: normal;
+    text-align: left;
+  }
+  .table > tbody > tr > td:before {
+    content: attr(title);
+    position: absolute;
+    left: 6px;
+    width: 45%;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: 700;
+  }
+}

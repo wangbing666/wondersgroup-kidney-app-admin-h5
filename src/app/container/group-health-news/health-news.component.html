@@ -1,0 +1,55 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="angle right icon" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <div class="content-addition">
+    <button class="ui button" (click)="newreadingQuantity('reading')">配置阅读量参数</button>
+    <button class="ui button" (click)="newConfigurationThumb('thumb')">配置点赞量参数</button>
+    <button class="ui button" (click)="newHealthNews()">新增健康资讯</button>
+  </div>
+  <tab-set [menuClass]="'teal two item inverted content-tab'">
+    <tab title="患者端">
+      <div id="healthNewsType" class="ui fluid selection dropdown">
+        <i class="dropdown icon"></i>
+        <div class="text">{{selectedType.name}}</div>
+        <div class="menu">
+          <div class="item" *ngFor="let opt of healthNewsType" [attr.data-value]="opt" (click)="getType(opt)">{{opt.name}}</div>
+        </div>
+      </div>
+      <div *ngIf="healthNewsTable.lists">
+        <dynamic-table [titles]="healthNewsTable.titles" [lists]="healthNewsTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu [totalPages]="healthNewsTable.totalPage" [currentPage]="healthNewsTable.currentPage" (pageEmitter)="getHealthNews($event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!healthNewsTable.lists" class="error-message">
+        <p>{{healthNewsTable.errorMessage}}</p>
+        <button *ngIf="healthNewsTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+    <tab title="医生端">
+      <div *ngIf="healthNewsDoctorTable.lists">
+        <dynamic-table [titles]="healthNewsDoctorTable.titles" [lists]="healthNewsDoctorTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu [totalPages]="healthNewsDoctorTable.totalPage" [currentPage]="healthNewsDoctorTable.currentPage" (pageEmitter)="getHealthNews($event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!healthNewsDoctorTable.lists" class="error-message">
+        <p>{{healthNewsDoctorTable.errorMessage}}</p>
+        <button *ngIf="healthNewsDoctorTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+  </tab-set>
+</div>
+<health-news-edit *ngIf="enableEdit" [data]="healthNewsData" [typeList]="healthNewsType" [(enable)]="enableEdit" (handleEmit)="handleSuccess($event)"></health-news-edit>
+<reading-quantity *ngIf="enablereading" [(enable)]="enablereading" [data]="readingquantity" (handleEmit)="handleSuccess($event)"></reading-quantity>
+<modal-show *ngIf="enableShow" [title]="'提示信息'" [message]="message" [(enable)]="enableShow"></modal-show>
+<modal-edit *ngIf="enableDel" [(enable)]="enableDel" [title]="'操作提示'" [message]="'确定删除该信息？'">
+  <button class="ui button blue" (click)="delete()">确定</button>
+  <button class="ui button" (click)="delCancel()">取消</button>
+</modal-edit>
+

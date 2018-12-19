@@ -1,0 +1,57 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="fa fa-angle-right" aria-hidden="true" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <tab-set [menuClass]="'teal two item inverted content-tab'">
+    <tab title="待处理" [label]="integralOrderCount">
+      <div *ngIf="!IntegralOrderTable.lists&&IntegralOrderTable.loading">Loading...</div>
+      <div *ngIf="IntegralOrderTable.lists">
+        <dynamic-table [titles]="IntegralOrderTable.titles" [lists]="IntegralOrderTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu *ngIf="IntegralOrderTable.lists" [totalPages]="IntegralOrderTable.totalPage" [currentPage]="IntegralOrderTable.currentPage" (pageEmitter)="getIntegralOrders($event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!IntegralOrderTable.lists&&!IntegralOrderTable.loading" class="error-message">
+        <p>{{IntegralOrderTable.errorMessage}}</p>
+        <button *ngIf="IntegralOrderTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+    <tab title="已处理">
+      <div *ngIf="!IntegralOrderedTable.lists&&IntegralOrderedTable.loading">Loading...</div>
+      <div *ngIf="IntegralOrderedTable.lists">
+        <dynamic-table *ngIf="IntegralOrderedTable.lists" [titles]="IntegralOrderedTable.titles" [lists]="IntegralOrderedTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu *ngIf="IntegralOrderedTable.totalPage" [totalPages]="IntegralOrderedTable.totalPage" [currentPage]="IntegralOrderedTable.currentPage" (pageEmitter)="getIntegralOrdereds($event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!IntegralOrderedTable.lists&&!IntegralOrderedTable.loading" class="error-message">
+        <p>{{IntegralOrderedTable.errorMessage}}</p>
+        <button *ngIf="IntegralOrderedTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+  </tab-set>
+</div>
+<integral-order-detail *ngIf="enableDetail" [(enable)]="enableDetail" [data]="integralOrderDetail"></integral-order-detail>
+<modal-edit *ngIf="enableMessage" [(enable)]="enableMessage"  title={{editTitle}} message={{msgTitle}}>
+  <form #f="ngForm" (ngSubmit)="expressNoEdit(f.value)" class="ui form" >
+    <div class="ui fuild field" style="line-height: 20px;" *ngIf="integralExpressList" >
+        <span style="float: left">快递公司:</span>
+        <select class="ui dropdown" name="expressName" [(ngModel)] = "expressName" (change)="expressChange(expressName)">
+             <option *ngFor="let opt of integralExpressList" value="{{opt.id}}" >{{opt.company}}</option>
+        </select>
+    </div>
+    <div class="ui fuild field" style="line-height: 20px;margin-bottom: 20px;">
+     <span style="float: left">快递单号:</span> <input style="float: left" name="expressNumber" [(ngModel)]="expressNumber"  (change)="setMsg()" required>
+    </div>
+    <div *ngIf="isSend" class="ui fuild field " style="line-height: 30px;">
+    <span style="float: left">短信内容:</span> <textarea style="height: 40px;" name="expressMessage" readonly [(ngModel)]="msg"></textarea>
+    </div>
+    <button class="ui button blue" type="submit">确定</button>
+    <button class="ui button" type="button" (click)="expressCancel()">取消</button>
+  </form>
+</modal-edit>
+<modal-show *ngIf="enableShow" [(enable)]="enableShow" [title]="titleShow" [message]="message"></modal-show>

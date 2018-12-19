@@ -1,0 +1,65 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="angle right icon" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <div class="content-addition">
+    <a download="download.xls" href="#"  class="userExcel ui button">导出</a>
+    <button class="ui button" (click)="newUser()">新增患者</button>
+  </div>
+  <tab-single [menuClass]="'teal three item inverted content-tab'">
+    <tab title="患者信息列表">
+      <div *ngIf="userTable.lists">
+        <form class="ui small form" style="margin: 15px 0 30px" #uf="ngForm" (ngSubmit)="getuserSearch(0)">
+          <div class="inline fields">
+            <div class="field">
+              <input type="text" placeholder="手机号／姓名搜索" name="queryUserKey" [(ngModel)]="queryUserKey">
+            </div>
+            <div class="field">
+              <button type="submit" class="ui small button">搜索</button>
+            </div>
+            <div class="field">
+              <button type="button" class="ui small button" (click)="resetUser()">全部</button>
+            </div>
+          </div>
+        </form>
+        <div *ngIf="!userTable.lists&&userTable.loading">Loading...</div>
+        <dynamic-table [titles]="userTable.titles" [lists]="userTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu *ngIf="userTable.lists" [totalPages]="userTable.totalPage" [currentPage]="userTable.currentPage" (pageEmitter)="getUsers($event)"></page-menu>
+        </div>
+      </div>
+      <div class="userVia" style="display: none;">
+        <table id="usertable">
+          <thead>
+            <tr>
+              <th *ngFor="let title of userTable.titles">{{title.name}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let list of userAllTable.lists">
+              <td *ngFor="let title of userTable.titles" [ngSwitch]="title.controlType" data-title="{{title.name}}">
+                <div *ngSwitchCase="'text'" [style.minWidth.px]="title.minwidth" [style.maxWidth.px]="title.maxwidth">
+                  <span>{{list[title.key] == 0 ? list[title.key] : list[title.key] || ''}}</span>
+                </div>
+                <div *ngSwitchCase="'showdetail'" [style.minWidth.px]="title.minwidth">
+                      {{list[title.key]}}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="!userTable.lists&&!userTable.loading" class="error-message">
+        <p>{{userTable.errorMessage}}</p>
+        <button *ngIf="userTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+  </tab-single>
+</div>
+<user-edit *ngIf="enableEdit"  [(enable)]="enableEdit"  [data]="user" (handleEmit)="handleSuccess($event)"></user-edit>
+<integral-detail *ngIf="enableDetail" [(enable)]="enableDetail" [data]="integral"></integral-detail>
+<modal-show *ngIf="enableShow" [title]="'提示信息'" [message]="message" [(enable)]="enableShow"></modal-show>

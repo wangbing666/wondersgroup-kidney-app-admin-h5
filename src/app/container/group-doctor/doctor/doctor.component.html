@@ -1,0 +1,91 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="angle right icon" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <div class="content-addition">
+    <a download="download.xls" href="#"  class="doctorExcel ui button">导出</a>
+    <button class="ui button" (click)="newDoctor()">新增医生</button>
+    <button class="ui button" (click)="msgSend()">短信提醒医生</button>
+  </div>
+  <tab-set [menuClass]="'teal three item inverted content-tab'">
+    <tab title="审核通过">
+      <div *ngIf="!auditedTable.lists&&auditedTable.loading">Loading...</div>
+      <div *ngIf="auditedTable.lists">
+        <dynamic-table [titles]="auditedTable.titles" [lists]="auditedTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu [totalPages]="auditedTable.totalPage" [currentPage]="auditedTable.currentPage" (pageEmitter)="getAuditedDoctors($event)"></page-menu>
+        </div>
+      </div>
+      <div class="doctorVia" style="display: none;">
+        <table id="doctortable">
+          <thead>
+            <tr>
+              <th *ngFor="let title of auditedTable.titles">{{title.name}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let list of doctorViaTable.lists">
+              <td *ngFor="let title of auditedTable.titles" [ngSwitch]="title.controlType" data-title="{{title.name}}">
+                <div *ngSwitchCase="'text'" [style.minWidth.px]="title.minwidth" [style.maxWidth.px]="title.maxwidth">
+                  <span>{{list[title.key] == 0 ? list[title.key] : list[title.key] || ''}}</span>
+                </div>
+                <div *ngSwitchCase="'showdetail'" [style.minWidth.px]="title.minwidth">
+                    {{list[title.key]}}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="!auditedTable.lists&&!auditedTable.loading" class="error-message">
+        <p>{{auditedTable.errorMessage}}</p>
+        <button *ngIf="auditedTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+    <tab title="待审核" [label]="count">
+      <div *ngIf="!auditingTable.lists&&auditingTable.loading">Loading...</div>
+      <div *ngIf="auditingTable.lists">
+        <dynamic-table [titles]="auditingTable.titles" [lists]="auditingTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu *ngIf="auditingTable.lists" [totalPages]="auditingTable.totalPage" [currentPage]="auditingTable.currentPage" (pageEmitter)="getAuditingDoctors($event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!auditingTable.lists&&!auditingTable.loading" class="error-message">
+        <p>{{auditingTable.errorMessage}}</p>
+        <button *ngIf="auditingTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+    <tab title="审核失败">
+      <div *ngIf="!failureTable.lists&&failureTable.loading">Loading...</div>
+      <div *ngIf="failureTable.lists">
+        <dynamic-table [titles]="failureTable.titles" [lists]="failureTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu *ngIf="failureTable.lists" [totalPages]="failureTable.totalPage" [currentPage]="failureTable.currentPage" (pageEmitter)="getFailureDoctors($event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!failureTable.lists&&!failureTable.loading" class="error-message">
+        <p>{{failureTable.errorMessage}}</p>
+        <button *ngIf="failureTable.errorMessage" class="ui button small" (click)="refresh()">点击刷新</button>
+      </div>
+    </tab>
+  </tab-set>
+</div>
+<app-doctor-edit *ngIf="enableEdit" [(enable)]="enableEdit" [data]="doctor" (handleEmit)="handleSuccess($event)"></app-doctor-edit>
+<integral-detail *ngIf="enableDetail" [(enable)]="enableDetail" [data]="integral"></integral-detail>
+<modal-img *ngIf="enableImg" [(enable)]="enableImg" [imgUrls]="imgUrls"></modal-img>
+<modal-edit *ngIf="enableProcess" [(enable)]="enableProcess" [title]="'操作提示'" [message]="processMessage">
+  <form #f="ngForm" (ngSubmit)="processF(f.value)" *ngIf="processData.key==='refuse'" class="ui form" style="padding-bottom: 15px">
+    <div class="ui fuild field">
+      <textarea rows="5" placeholder="请填写拒绝理由" name="reason" ngModel required></textarea>
+    </div>
+    <button class="ui button blue" type="submit">确定</button>
+  </form>
+  <button *ngIf="processData.key==='assess'" class="ui button blue" (click)="process()">确定</button>
+  <button class="ui button" (click)="processCancel()">取消</button>
+</modal-edit>
+<modal-show *ngIf="enableShow" [(enable)]="enableShow" [title]="titleShow" [message]="message"></modal-show>
+<app-message-send *ngIf="enableMessage" [(enable)]="enableMessage"></app-message-send>

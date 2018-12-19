@@ -1,0 +1,25 @@
+.page-items {
+  display: inline-flex;
+}
+
+.page-items > .item {
+  color: #999;
+  position: relative;
+  display: flex;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: none;
+  padding: 0px 10px;
+  @include align-items(center);
+}
+
+.page-items > .item:hover {
+  color: #0a819c;
+  background-color: #fafafa !important;
+}
+
+.item-active {
+  color: #0a819c !important;
+  background-color: #fafafa;
+  text-decoration: underline !important;
+}

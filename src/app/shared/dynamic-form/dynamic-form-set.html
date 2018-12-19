@@ -1,0 +1,64 @@
+<div [formGroup]="form">
+  <div class="field" [ngSwitch]="formdata.controlType">
+    <div class="ui grid" *ngIf="formdata.type!=='hidden'">
+      <div class="three wide column right aligned">
+        <label [attr.for]="formdata.key">
+          {{formdata.label}}
+          <span *ngIf="!isValid" style="color: #e74c3c;">*</span>
+        </label>
+      </div>
+      <div class="nine wide column">
+        <div *ngSwitchCase="'text'">
+          <input [id]="formdata.key" [type]="formdata.type" [formControlName]="formdata.key">
+        </div>
+        <div *ngSwitchCase="'file'">
+          <input [id]="formdata.key" type="file" (change)="uploadChange($event)">
+          <input type="hidden" [formControlName]="formdata.key" [(ngModel)]="formdata.value">
+          <div class="upload-content">
+            <div *ngIf="!formdata.multiple">
+              <img class="ui image small" [src]="formdata.value">
+              <i class="close icon" (click)="fileDel()" *ngIf="formdata.value!==''"></i>
+            </div>
+            <div *ngIf="formdata.multiple">
+              <div *ngFor="let item of formdata.value" class="upload-list">
+                <img class="ui image small" [src]="item">
+                <i class="close icon" (click)="fileDel(item)"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'textarea'">
+          <textarea [id]="formdata.key" [attr.row]="formdata.size" [formControlName]="formdata.key" [(ngModel)]="formdata.value"></textarea>
+        </div>
+        <div *ngSwitchCase="'editor'">
+          <textarea [id]="formdata.key" style="height:500px;">
+          </textarea>
+          <input type="hidden" [formControlName]="formdata.key" [(ngModel)]="formdata.value">
+        </div>
+        <div *ngSwitchCase="'dropdown'">
+          <select [id]="formdata.key" class="ui fluid dropdown" [id]="formdata.key" [formControlName]="formdata.key">
+            <option *ngFor="let opt of formdata.options" [value]="opt.id">{{opt.name}}</option>
+          </select>
+        </div>
+        <div *ngSwitchCase="'checkbox'">
+          <div class="ui checkbox" *ngFor="let opt of formdata.options">
+            <input type="checkbox" (change)="getChecked($event, opt.id)" checked="{{opt.checked}}">
+            <label>{{opt.name}}</label>
+          </div>
+          <input type="hidden" [formControlName]="formdata.key">
+        </div>
+        <div *ngSwitchCase="'optionlist'">
+          <div>
+            <span *ngFor="let item of datalist;let i=index" style="padding-right: 15px;">
+              {{item}} <i class="fa fa-times" (click)="delList(i)"></i>
+            </span>
+          </div>
+          <input type="number" #option>
+          <button class="ui button" type="button" (click)="addList(option)">添加</button>
+          <input type="hidden" [formControlName]="formdata.key">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<modal-show *ngIf="enableShow" [title]="title" [message]="message" [(enable)]="enableShow"></modal-show>

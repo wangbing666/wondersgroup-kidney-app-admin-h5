@@ -1,0 +1,12 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="form" class="ui form error" style="padding: 30px 0">
+  <div *ngFor="let formdata of formDatas" class="form-content">
+    <dynamic-form-set [formdata]="formdata" [form]="form"></dynamic-form-set>
+  </div>
+  <div class="ui grid">
+    <div class="three wide column"></div>
+    <div class="nine wide column">
+      <button class="ui submit button" type="submit" [disabled]="!form.valid">{{ button || '保存'}}</button>
+      <button class="ui submit button" type="reset" *ngIf="reset">重置</button>
+    </div>
+  </div>
+</form>

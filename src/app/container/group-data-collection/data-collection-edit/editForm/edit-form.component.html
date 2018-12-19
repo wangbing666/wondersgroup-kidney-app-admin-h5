@@ -1,0 +1,273 @@
+<div *ngIf="info">
+  <form #inputForm="ngForm" (ngSubmit)="save()" class="ui form">
+    <div class="field">
+      <label>图片编号</label>
+      <div class="ui checkbox" *ngFor="let img of imageList;let i=index" style="margin-right: 15px">
+        <label>{{i+1}}<img [src]="img.imgUrl" width="50" height="50"></label>
+        <input type="checkbox" (change)="getChecked($event, img.id)" [checked]="img.checked">
+      </div>
+    </div>
+    <div class="field" *ngIf="this.editFormData.id">
+      <label for="recordHistoryType">数据类型</label>
+      <select *ngIf="id" id="recordHistoryType" class="ui fluid dropdown" name="recordHistoryType" [(ngModel)]="info.recordHistoryType" required disabled>
+        <option *ngFor="let item of typeList; let i=index" value="{{i+1}}">{{item}}</option>
+      </select>
+    </div>
+    <div class="field" *ngIf="!this.editFormData.id">
+      <label for="recordHistoryType">数据类型</label>
+      <select *ngIf="id" id="recordHistoryType" class="ui fluid dropdown" name="recordHistoryType" (change)="changeType()" [(ngModel)]="info.recordHistoryType" required>
+        <option *ngFor="let item of typeList; let i=index" value="{{i+1}}">{{item}}</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="checkDate{{index}}">检查时间</label>
+      <!-- <input placeholder="{{formdata.placeholder}}" #date> -->
+      <input id="checkDate{{index}}" type="time" name="checkDate" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.checkDate" required readonly>
+    </div>
+    <div class="field">
+      <label for="hospitalName">医院</label>
+      <input id="hospitalName" type="text" name="hospitalName" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.hospitalName" required>
+    </div>
+    <div class="field">
+      <label for="officeName">科室</label>
+      <input id="officeName" type="text" name="officeName" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.officeName" required>
+    </div>
+    <div *ngIf="info.recordHistoryType==1">
+      <div *ngFor="let form of inspectionFormList;let i=index" class="form-sub-list">
+        <div *ngIf="form.deleted">
+          <div class="right-button">
+            <button type="button" class="ui right labeled icon button" (click)="reInspectionForm(i)">
+              恢复删除检验报告{{i+1}}
+              <i class="undo icon"></i></button>
+          </div>
+        </div>
+        <div *ngIf="!form.deleted">
+          <div class="right-button">
+            <button type="button" class="ui right labeled icon button" (click)="delInspectionForm(i)">
+              删除检验报告{{i+1}}
+              <i class="remove icon"></i></button>
+          </div>
+          <h3 class="ui horizontal divider">检验报告{{i+1}}</h3>
+          <app-inspection-form [id]="this.editFormData.id" [data]="form" (dataChange)="saveAsDraft()"></app-inspection-form>
+        </div>
+      </div>
+      <button type="button" class="ui button" (click)="newInspectionForm()">+添加一项检验报告</button>
+    </div>
+    <div *ngIf="info.recordHistoryType==2">
+      <div class="field">
+        <label for="hospitalNo">住院号</label>
+        <input id="hospitalNo" type="text" name="hospitalNo" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.hospitalNo">
+      </div>
+      <div class="field">
+        <label for="pathobiologyNo">病理号</label>
+        <input id="pathobiologyNo" type="text" name="pathobiologyNo" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.pathobiologyNo">
+      </div>
+      <div class="field">
+        <label for="xrayNo">X光号</label>
+        <input id="xrayNo" type="text" name="xrayNo" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.xrayNo">
+      </div>
+      <div class="field">
+        <label for="bedNo">床号</label>
+        <input id="bedNo" type="text" name="bedNo" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.bedNo">
+      </div>
+      <div class="field">
+        <label for="sectionOffice">科别</label>
+        <input id="sectionOffice" type="text" name="sectionOffice" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.sectionOffice">
+      </div>
+      <div class="field">
+        <label for="inTime{{index}}">入院时间</label>
+        <input id="inTime{{index}}" type="date" name="inTime" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.inTime" required #inputTime>
+      </div>
+      <div class="field">
+        <label for="outTime{{index}}">出院时间</label>
+        <input id="outTime{{index}}" type="date" name="outTime" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.outTime" required>
+      </div>
+      <div class="field">
+        <label for="cause">入院诊断</label>
+        <input id="cause" type="text" name="cause" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.cause">
+      </div>
+      <div class="field">
+        <label for="diagnosis">出院诊断</label>
+        <input id="diagnosis" type="text" name="diagnosis" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.diagnosis">
+      </div>
+      <div class="field">
+        <label for="briefHistoryName">患者</label>
+        <input id="briefHistoryName" type="text" name="briefHistoryName" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.briefHistoryName">
+      </div>
+      <div class="field">
+        <label for="briefHistoryChief">主诉</label>
+        <input id="briefHistoryChief" type="text" name="briefHistoryChief" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.briefHistoryChief">
+      </div>
+      <div class="field">
+        <label for="briefHistoryPresent">现病史</label>
+        <input id="briefHistoryPresent" type="text" name="briefHistoryPresent" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.briefHistoryPresent">
+      </div>
+      <div class="field">
+        <label for="briefHistoryPast">既往史</label>
+        <input id="briefHistoryPast" type="text" name="briefHistoryPast" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.briefHistoryPast">
+      </div>
+      <div class="field">
+        <label for="physicalTemperature">体检T</label>
+        <input id="physicalTemperature" type="text" name="physicalTemperature" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.physicalTemperature">
+      </div>
+      <div class="field">
+        <label for="physicalPulse">体检P</label>
+        <input id="physicalPulse" type="text" name="physicalPulse" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.physicalPulse">
+      </div>
+      <div class="field">
+        <label for="physicalRespiration">体检R</label>
+        <input id="physicalRespiration" type="text" name="physicalRespiration" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.physicalRespiration">
+      </div>
+      <div class="field">
+        <label for="physicalBloodPressureDiastolic">体检BP 低压</label>
+        <input id="physicalBloodPressureDiastolic" type="text" name="physicalBloodPressureDiastolic" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.physicalBloodPressureDiastolic">
+      </div>
+      <div class="field">
+        <label for="physicalBloodPressureSystolic">体检BP 高压</label>
+        <input id="physicalBloodPressureSystolic" type="text" name="physicalBloodPressureSystolic" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.physicalBloodPressureSystolic">
+      </div>
+      <div class="field">
+        <label for="physicalExamination">体检摘要</label>
+        <input id="physicalExamination" type="text" name="physicalExamination" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.physicalExamination">
+      </div>
+      <div>
+        <div *ngFor="let form of inspectionFormList;let i=index" class="form-sub-list">
+          <div *ngIf="form.deleted">
+            <div class="right-button">
+              <button type="button" class="ui right labeled icon button" (click)="reInspectionForm(i)">
+                恢复删除检验报告{{i+1}}
+                <i class="undo icon"></i></button>
+            </div>
+          </div>
+          <div *ngIf="!form.deleted">
+            <div class="right-button">
+              <button type="button" class="ui right labeled icon button" (click)="delInspectionForm(i)">
+                删除检验报告{{i+1}}
+                <i class="remove icon"></i></button>
+            </div>
+            <h3 class="ui horizontal divider">检验报告{{i+1}}</h3>
+            <app-inspection-form [id]="this.editFormData.id" [data]="form" (dataChange)="saveAsDraft()"></app-inspection-form>
+          </div>
+        </div>
+        <button type="button" class="ui button" (click)="newInspectionForm()">+添加一项检验报告</button>
+      </div>
+      <h3 class="ui horizontal divider">影像报告</h3>
+      <div class="field">
+        <div *ngFor="let form of imageFormList;let i=index" class="form-sub-list">
+          <div *ngIf="form.deleted">
+            <div class="right-button">
+              <button type="button" class="ui right labeled icon button" (click)="reImageForm(i)">
+                恢复删除影像报告{{i+1}}
+                <i class="undo icon"></i></button>
+            </div>
+          </div>
+          <div *ngIf="!form.deleted">
+            <div class="right-button">
+              <button type="button" class="ui right labeled icon button" (click)="delImageForm(i)">
+                删除影像报告{{i+1}}
+                <i class="remove icon"></i></button>
+            </div>
+            <h3 class="ui horizontal divider">影像报告{{i+1}}</h3>
+            <app-image-form [data]="form" (dataChange)="saveAsDraft()" index="{{index}}{{i}}edit"></app-image-form>
+          </div>
+        </div>
+        <button type="button" class="ui button" (click)="newImageForm()">+添加一项影像报告</button>
+      </div>
+      <div class="ui divider"></div>
+      <div class="field">
+        <label for="treatmentCondition">病理与治疗情况</label>
+        <input id="treatmentCondition" type="text" name="treatmentCondition" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.treatmentCondition">
+      </div>
+      <div class="field">
+        <label for="treatmentResult">治疗结果</label>
+        <input id="treatmentResult" type="text" name="treatmentResult" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.treatmentResult">
+      </div>
+      <div class="field">
+        <label for="leaveCondition">出院时情况</label>
+        <input id="leaveCondition" type="text" name="leaveCondition" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.leaveCondition">
+      </div>
+      <div class="field">
+        <label for="leaveSuggestion">出院后用药建议</label>
+        <textarea id="leaveSuggestion" type="text" name="leaveSuggestion" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.leaveSuggestion"></textarea>
+      </div>
+      <div>
+        <div *ngFor="let form of medicineFormList;let i=index" style="padding: 15px;margin-bottom: 15px;border: 1px solid #ccc">
+          <div *ngIf="form.deleted">
+            <div style="text-align: right;">
+              <button type="button" class="ui right labeled icon button" (click)="reMedicineForm(i)">
+                恢复删除药品{{i+1}}
+                <i class="undo icon"></i></button>
+            </div>
+          </div>
+          <div *ngIf="!form.deleted">
+            <div style="text-align: right;">
+              <button type="button" class="ui right labeled icon button" (click)="delMedicineForm(i)">
+                删除药品{{i+1}}
+                <i class="remove icon"></i></button>
+            </div>
+            <app-medicine-form [data]="form" (dataChange)="saveAsDraft()" index="{{index}}{{i}}insp"></app-medicine-form>
+          </div>
+        </div>
+        <button type="button" class="ui button" (click)="newMedicineForm()">+添加药品</button>
+      </div>
+      <div class="field">
+        <label for="physicianChief">副主任／主任医师</label>
+        <input id="physicianChief" type="text" name="physicianChief" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.physicianChief">
+      </div>
+      <div class="field">
+        <label for="physicianAttending">主治医师</label>
+        <input id="physicianAttending" type="text" name="physicianAttending" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.physicianAttending">
+      </div>
+      <div class="field">
+        <label for="physicianResident">住院医师</label>
+        <input id="physicianResident" type="text" name="physicianResident" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.physicianResident">
+      </div>
+      <div class="field">
+        <label for="physicianIntern">实习医师</label>
+        <input id="physicianIntern" type="text" name="physicianIntern" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.physicianIntern">
+      </div>
+      <div class="field">
+        <label for="writeTime{{index}}">填写时间</label>
+        <input id="writeTime{{index}}" type="date" name="writeTime" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.writeTime" required>
+      </div>
+    </div>
+    <div *ngIf="info.recordHistoryType==4">
+      <div *ngFor="let form of medicineFormList;let i=index" style="padding: 15px;margin-bottom: 15px;border: 1px solid #ccc">
+        <div *ngIf="form.deleted">
+          <div style="text-align: right;">
+            <button type="button" class="ui right labeled icon button" (click)="reMedicineForm(i)">
+              恢复删除药品{{i+1}}
+              <i class="undo icon"></i></button>
+          </div>
+        </div>
+        <div *ngIf="!form.deleted">
+          <div style="text-align: right;">
+            <button type="button" class="ui right labeled icon button" (click)="delMedicineForm(i)">
+              删除药品{{i+1}}
+              <i class="remove icon"></i></button>
+          </div>
+          <app-medicine-form [data]="form" (dataChange)="saveAsDraft()" index="{{index}}{{i}}edit"></app-medicine-form>
+        </div>
+      </div>
+      <button type="button" class="ui button" (click)="newMedicineForm()">+添加药品</button>
+    </div>
+    <div *ngIf="info.recordHistoryType==5">
+      <div class="field">
+        <label for="content">诊断</label>
+        <textarea id="content" type="text" name="content" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.content"></textarea>
+      </div>
+    </div>
+    <div *ngIf="info.recordHistoryType==6">
+      <div class="field">
+        <label for="title">标题名</label>
+        <input id="title" type="text" name="title" (blur)="saveAsDraft()" (change)="saveAsDraft()" [(ngModel)]="info.title">
+      </div>
+    </div>
+    <div class="field" style="padding: 15px 0">
+      <button *ngIf="!this.info.id" type="button" class="ui button" (click)="saveAsDraft()">保存草稿</button>
+      <button type="submit" class="ui button">保存</button>
+      <button type="button" *ngIf="this.info.id" class="ui button" (click)="cancel()">取消</button>
+    </div>
+  </form>
+</div>
+<modal-show *ngIf="enableShow" [title]="'提示信息'" [message]="message" [(enable)]="enableShow"></modal-show>

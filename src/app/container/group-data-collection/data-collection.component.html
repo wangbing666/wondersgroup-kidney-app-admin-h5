@@ -1,0 +1,66 @@
+<div class="content-wrapper">
+  <div class="content-location">
+    <i>你的位置</i>
+    <i class="angle right icon" style="padding: 0 10px;"></i> {{title}}
+  </div>
+  <div class="content-title">
+    {{title}} － <strong>{{subTitle}}</strong>
+  </div>
+  <tab-set [menuClass]="'teal four item inverted content-tab'">
+    <tab title="待录入">
+      <div *ngIf="!waitingTable.lists&&waitingTable.loading">Loading...</div>
+      <div *ngIf="waitingTable.lists">
+        <dynamic-table [titles]="waitingTable.titles" [lists]="waitingTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu *ngIf="waitingTable.lists" [totalPages]="waitingTable.totalPage" [currentPage]="waitingTable.currentPage" (pageEmitter)="getDataCollections(waitingTable,0,$event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!waitingTable.lists&&!waitingTable.loading" class="error-message">
+        <p>{{waitingTable.errorMessage}}</p>
+        <button *ngIf="waitingTable.errorMessage" class="ui button small" (click)="getDataCollections(waitingTable,0,0)">点击刷新</button>
+      </div>
+    </tab>
+    <tab title="待审核" [label]="count">
+      <div *ngIf="!auditingTable.lists&&auditingTable.loading">Loading...</div>
+      <div *ngIf="auditingTable.lists">
+        <dynamic-table [titles]="auditingTable.titles" [lists]="auditingTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu *ngIf="auditingTable.lists" [totalPages]="auditingTable.totalPage" [currentPage]="auditingTable.currentPage" (pageEmitter)="getDataCollections(auditingTable,1,$event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!auditingTable.lists&&!auditingTable.loading" class="error-message">
+        <p>{{auditingTable.errorMessage}}</p>
+        <button *ngIf="auditingTable.errorMessage" class="ui button small" (click)="getDataCollections(auditingTable,1,0)">点击刷新</button>
+      </div>
+    </tab>
+    <tab title="审核通过">
+      <div *ngIf="!auditedTable.lists&&auditedTable.loading">Loading...</div>
+      <div *ngIf="auditedTable.lists">
+        <dynamic-table [titles]="auditedTable.titles" [lists]="auditedTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu *ngIf="auditedTable.lists" [totalPages]="auditedTable.totalPage" [currentPage]="auditedTable.currentPage" (pageEmitter)="getDataCollections(auditedTable,3,$event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!auditedTable.lists&&!auditedTable.loading" class="error-message">
+        <p>{{auditedTable.errorMessage}}</p>
+        <button *ngIf="auditedTable.errorMessage" class="ui button small" (click)="getDataCollections(auditedTable,3,0)">点击刷新</button>
+      </div>
+    </tab>
+    <tab title="未处理">
+      <div *ngIf="!unhandledTable.lists&&unhandledTable.loading">Loading...</div>
+      <div *ngIf="unhandledTable.lists">
+        <dynamic-table [titles]="unhandledTable.titles" [lists]="unhandledTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+        <div class="table-nav" style="text-align: right">
+          <page-menu *ngIf="unhandledTable.lists" [totalPages]="unhandledTable.totalPage" [currentPage]="unhandledTable.currentPage" (pageEmitter)="getDataCollections(unhandledTable,2,$event)"></page-menu>
+        </div>
+      </div>
+      <div *ngIf="!unhandledTable.lists&&!unhandledTable.loading" class="error-message">
+        <p>{{unhandledTable.errorMessage}}</p>
+        <button *ngIf="unhandledTable.errorMessage" class="ui button small" (click)="getDataCollections(unhandledTable,2,0)">点击刷新</button>
+      </div>
+    </tab>
+  </tab-set>
+</div>
+<auditing [id]="id" (cancel)="auditingEnable=false" (done)="done($event)" [hidden]="auditingEnable" *ngIf="auditingEnable"></auditing>
+<unhandle [id]="id" (cancel)="handleEnable=false" (done)="done($event)" [hidden]="handleEnable" *ngIf="handleEnable"></unhandle>
+<modal-show *ngIf="enableShow" [(enable)]="enableShow" [title]="'提示信息'" [message]="message"></modal-show>

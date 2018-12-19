@@ -1,0 +1,17 @@
+.upload-content {
+  width: 100%;
+  padding: 15px 0;
+}
+
+.upload-content img {
+  float: left;
+}
+
+.upload-content img:before,
+.upload-content img:after {
+  clear: both;
+}
+
+.upload-list {
+  float: left;
+}

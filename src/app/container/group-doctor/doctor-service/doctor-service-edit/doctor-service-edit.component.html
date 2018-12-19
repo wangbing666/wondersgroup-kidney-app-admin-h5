@@ -1,0 +1,13 @@
+<modal-full [modalTitle]="modalTitle" (closeEmmit)="close()">
+    <div *ngIf="!serviceDetailTable.lists&&serviceDetailTable.loading">Loading...</div>
+    <div *ngIf="serviceDetailTable.lists">
+      <dynamic-table [titles]="serviceDetailTable.titles" [lists]="serviceDetailTable.lists" (handleEmmit)="gotoHandle($event)"></dynamic-table>
+      <div class="table-nav" style="text-align: right">
+        <page-menu [totalPages]="serviceDetailTable.totalPage" [currentPage]="serviceDetailTable.currentPage" (pageEmitter)="getDoctorServiceEdit($event)"></page-menu>
+      </div>
+    </div>
+    <div *ngIf="!serviceDetailTable.lists&&!serviceDetailTable.loading" class="error-message">
+      <p>{{serviceDetailTable.errorMessage}}</p>
+      <button class="ui button small" (click)="refresh()">点击刷新</button>
+    </div>
+</modal-full>
